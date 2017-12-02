@@ -20,10 +20,12 @@ https://github.com/OAI/OpenAPI-Specification/blob/master/versions/1.2.md[Swagger
 combines them into link:jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/generated.json[one file].
 . The run.sh script can then be used to generate the client under jasterisk using the swagger-codegen-cli.jar.
 
+The files under link:jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/[modified] have been manually
+modified so that generated method names are unique (compare files under original/ and under modified/).
 
 == Example Usage
 
-Here's a simple example of how the api can be used:
+link:jasterisk/src/main/java/com/github/jasterisk/example/Example.java[Here]'s a simple example of how the api can be used:
 
 . We first create an OkHttpClient with the settings we want
 . We create a client (an instance of DefaultApi)
@@ -35,9 +37,4 @@ The code should output something similar to
 ----
 new Bridge id is 38c0ebbe-afa7-48f0-bbcd-41506393f99a
 com.github.jasterisk.model.BridgeCreated
-----
-
-[source, java]
-----
-include::jasterisk/src/main/java/com/github/jasterisk/example/Example.java[]
 ----
