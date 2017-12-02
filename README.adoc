@@ -1,2 +1,4 @@
 = jasterisk
+
 Java bindings for Asterisk REST Interface (ARI)
+
