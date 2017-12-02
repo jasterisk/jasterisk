@@ -70,15 +70,8 @@ public class Jasterisk {
         return client.createService(DefaultApi.class);
     }
 
-    /**
-     *
-     * @param body
-     * @param returnType
-     * @param <T>
-     * @return
-     */
     @SuppressWarnings("unchecked")
-    public static <T> T deserialize(String body, Type returnType) {
+    private static <T> T deserialize(String body, Type returnType) throws JsonParseException {
         try {
             return gson.fromJson(body, returnType);
         } catch (JsonParseException e) {
@@ -87,7 +80,14 @@ public class Jasterisk {
         }
     }
 
-    public static Object jsonToObject(String json) {
+    /**
+     * Transforms a json String into an instance of one of the classes in the model package.
+     *
+     * @param json json to transform
+     * @throws JsonParseException if the json cannot be parsed
+     * @return an Object
+     */
+    public static Object jsonToObject(String json) throws JsonParseException {
         try {
             String type = parser.parse(json).getAsJsonObject().get("type").getAsString();
             String fullName = AsteriskInfo.class.getPackage().getName() + "." + type;

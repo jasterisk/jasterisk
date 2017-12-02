@@ -146,6 +146,14 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <links>
+                        <link>http://square.github.io/retrofit/2.x/retrofit/</link>
+                        <link>https://oltu.apache.org/apidocs/oauth2/reference/</link>
+                        <link>https://square.github.io/okhttp/3.x/okhttp/</link>
+                    </links>
+                    <excludePackageNames>com.github.jasterisk.example</excludePackageNames>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-public class Example {
+class Example {
 
     private static final String uri = "http://192.168.1.207:8088/ari";
     private static final String apiKeyValue = "asterisk:asterisk";
