@@ -1,6 +1,6 @@
-image::jasterisk.png[align="center"]
-
 = jasterisk
+
+image::jasterisk.png[align="center"]
 
 Java bindings for https://www.asterisk.org/[Asterisk] https://wiki.asterisk.org/wiki/display/AST/Asterisk+15+ARI[REST Interface] (ARI). Javadoc https://jasterisk.github.io/jasterisk/apidocs/[here].
 
