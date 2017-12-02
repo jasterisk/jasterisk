@@ -19,14 +19,30 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Type;
 import java.time.OffsetDateTime;
 
+/**
+ * Helper class for creating an instance of {@link DefaultApi} and {@link WebSocket}.
+ */
 public class Jasterisk {
 
     private static JsonParser parser = new JsonParser();
 
+    /**
+     * A {@link Gson} instance that handles Asterisk's not so correctly formatted dates.
+     */
     public static Gson gson = new GsonBuilder()
             .registerTypeAdapter(OffsetDateTime.class, new AsteriskOffsetDateTimeTypeAdapter())
             .create();
 
+    /**
+     * Creates a {@link WebSocket} for handling Asterisk events.
+     *
+     * @param asteriskUri the uri to Asterisk, like 'http://192.168.1.207:8088/ari', MUST NOT end in /
+     * @param apiKeyValue the api key and value like 'asterisk:asterisk'
+     * @param app the app to receive event's from or null if requesting events from all apps
+     * @param okHttpClient an initialized instance of {@link OkHttpClient}
+     * @param listener a {@link WebSocketListener} to handle events
+     * @return the {@link WebSocket} instance
+     */
     public static WebSocket createEventWebSocket(String asteriskUri, String apiKeyValue, @Nullable String app, OkHttpClient okHttpClient, WebSocketListener listener) {
         String appKeyValue = (app != null) ? "app=" + app : "app=app&subscribeAll=true";
         Request request = new Request.Builder().get()
@@ -34,6 +50,14 @@ public class Jasterisk {
         return okHttpClient.newWebSocket(request, listener);
     }
 
+    /**
+     * Creates an instance of {@link DefaultApi} used to communicate with Asterisk
+     *
+     * @param asteriskUri the uri to Asterisk, like 'http://192.168.1.207:8088/ari', MUST NOT end in /
+     * @param apiKeyValue the api key and value like 'asterisk:asterisk'
+     * @param okHttpClient an initialized instance of {@link OkHttpClient}
+     * @return the {@link DefaultApi} instance
+     */
     public static DefaultApi createClient(String asteriskUri, String apiKeyValue, OkHttpClient okHttpClient) {
         Retrofit.Builder adapterBuilder =  new Retrofit.Builder()
                 .baseUrl(asteriskUri.endsWith("/") ? asteriskUri : asteriskUri + "/")
@@ -46,6 +70,13 @@ public class Jasterisk {
         return client.createService(DefaultApi.class);
     }
 
+    /**
+     *
+     * @param body
+     * @param returnType
+     * @param <T>
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static <T> T deserialize(String body, Type returnType) {
         try {

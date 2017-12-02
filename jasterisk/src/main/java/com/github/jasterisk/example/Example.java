@@ -41,6 +41,11 @@ public class Example {
         @Override
         public void onMessage(WebSocket webSocket, String json) {
             Object obj = Jasterisk.jsonToObject(json);
+            /**
+             * As Java is a shit language and does not have pattern matching, you'll either have to instanceof
+             * the shit out of the Object instances or switch case on the name of the class to find out what
+             * events you're getting.
+             */
             System.out.println(obj.getClass().getName());
         }
     }
