@@ -1,0 +1,5 @@
+com.github.jasterisk.api
+com.github.jasterisk.client
+com.github.jasterisk.invoker
+com.github.jasterisk.invoker.auth
+com.github.jasterisk.model
