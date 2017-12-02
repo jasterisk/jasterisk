@@ -1,0 +1,12 @@
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/asterisk.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/endpoints.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/channels.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/bridges.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/recordings.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/sounds.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/playbacks.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/deviceStates.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/mailboxes.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/events.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/applications.json
+jasterisk-codegen/src/main/resources/ASTERISK_15_0/modified/custom.json

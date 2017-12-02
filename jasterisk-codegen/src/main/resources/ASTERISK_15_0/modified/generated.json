@@ -1,0 +1,5559 @@
+{
+  "apiVersion": "3.0.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost:8088/ari",
+  "authorizations": {
+    "apiKey": {
+      "type": "apiKey",
+      "passAs": "query",
+      "keyname": "api_key"
+    }
+  },
+  "apis": [
+    {
+      "path": "/asterisk/config/dynamic/{configClass}/{objectType}/{id}",
+      "description": "Asterisk dynamic configuration",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieve a dynamic configuration object.",
+          "nickname": "getAsteriskConfigObject",
+          "parameters": [
+            {
+              "name": "configClass",
+              "description": "The configuration class containing dynamic configuration objects.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "objectType",
+              "description": "The type of configuration object to retrieve.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "description": "The unique identifier of the object to retrieve.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "{configClass|objectType|id} not found"
+            }
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "ConfigTuple"
+          }
+        },
+        {
+          "method": "PUT",
+          "summary": "Create or update a dynamic configuration object.",
+          "nickname": "updateAsteriskConfigObject",
+          "parameters": [
+            {
+              "name": "configClass",
+              "description": "The configuration class containing dynamic configuration objects.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "objectType",
+              "description": "The type of configuration object to create or update.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "description": "The unique identifier of the object to create or update.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "fields",
+              "description": "The body object should have a value that is a list of ConfigTuples, which provide the fields to update. Ex. [ { \"attribute\": \"directmedia\", \"value\": \"false\" } ]",
+              "paramType": "body",
+              "required": false,
+              "type": "ConfigObject",
+              "allowMultiple": false
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Bad request body"
+            },
+            {
+              "code": 403,
+              "reason": "Could not create or update object"
+            },
+            {
+              "code": 404,
+              "reason": "{configClass|objectType} not found"
+            }
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "ConfigTuple"
+          }
+        },
+        {
+          "method": "DELETE",
+          "summary": "Delete a dynamic configuration object.",
+          "nickname": "deleteAsteriskConfigObject",
+          "parameters": [
+            {
+              "name": "configClass",
+              "description": "The configuration class containing dynamic configuration objects.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "objectType",
+              "description": "The type of configuration object to delete.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "id",
+              "description": "The unique identifier of the object to delete.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 403,
+              "reason": "Could not delete object"
+            },
+            {
+              "code": 404,
+              "reason": "{configClass|objectType|id} not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/asterisk/info",
+      "description": "Asterisk system information (similar to core show settings)",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Gets Asterisk system information.",
+          "nickname": "getAsteriskInfo",
+          "parameters": [
+            {
+              "name": "only",
+              "description": "Filter information returned",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": true,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "build",
+                  "system",
+                  "config",
+                  "status"
+                ]
+              },
+              "type": "string"
+            }
+          ],
+          "$ref": "AsteriskInfo"
+        }
+      ]
+    },
+    {
+      "path": "/asterisk/modules",
+      "description": "Asterisk modules",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List Asterisk modules.",
+          "nickname": "getAsteriskModules",
+          "type": "array",
+          "items": {
+            "$ref": "Module"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/asterisk/modules/{moduleName}",
+      "description": "Asterisk module",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get Asterisk module information.",
+          "nickname": "getAsteriskModule",
+          "parameters": [
+            {
+              "name": "moduleName",
+              "description": "Module\u0027s name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Module could not be found in running modules."
+            },
+            {
+              "code": 409,
+              "reason": "Module information could not be retrieved."
+            }
+          ],
+          "$ref": "Module"
+        },
+        {
+          "method": "POST",
+          "summary": "Load an Asterisk module.",
+          "nickname": "loadAsteriskModule",
+          "parameters": [
+            {
+              "name": "moduleName",
+              "description": "Module\u0027s name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 409,
+              "reason": "Module could not be loaded."
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Unload an Asterisk module.",
+          "nickname": "unloadAsteriskModule",
+          "parameters": [
+            {
+              "name": "moduleName",
+              "description": "Module\u0027s name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Module not found in running modules."
+            },
+            {
+              "code": 409,
+              "reason": "Module could not be unloaded."
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "PUT",
+          "summary": "Reload an Asterisk module.",
+          "nickname": "reloadAsteriskModule",
+          "parameters": [
+            {
+              "name": "moduleName",
+              "description": "Module\u0027s name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Module not found in running modules."
+            },
+            {
+              "code": 409,
+              "reason": "Module could not be reloaded."
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/asterisk/logging",
+      "description": "Asterisk log channels",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Gets Asterisk log channel information.",
+          "nickname": "getAsteriskLogChannels",
+          "type": "array",
+          "items": {
+            "$ref": "LogChannel"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/asterisk/logging/{logChannelName}",
+      "description": "Asterisk log channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Adds a log channel.",
+          "nickname": "addAsteriskLogChannel",
+          "parameters": [
+            {
+              "name": "logChannelName",
+              "description": "The log channel to add",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "configuration",
+              "description": "levels of the log channel",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Bad request body"
+            },
+            {
+              "code": 409,
+              "reason": "Log channel could not be created."
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Deletes a log channel.",
+          "nickname": "deleteAsteriskLogChannel",
+          "parameters": [
+            {
+              "name": "logChannelName",
+              "description": "Log channels name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Log channel does not exist."
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/asterisk/logging/{logChannelName}/rotate",
+      "description": "Asterisk log channel",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Rotates a log channel.",
+          "nickname": "rotateAsteriskLogChannel",
+          "parameters": [
+            {
+              "name": "logChannelName",
+              "description": "Log channel\u0027s name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Log channel does not exist."
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/asterisk/variable",
+      "description": "Global variables",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the value of a global variable.",
+          "nickname": "getAsteriskGlobalVar",
+          "parameters": [
+            {
+              "name": "variable",
+              "description": "The variable to get",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Missing variable parameter."
+            }
+          ],
+          "$ref": "Variable"
+        },
+        {
+          "method": "POST",
+          "summary": "Set the value of a global variable.",
+          "nickname": "setAsteriskGlobalVar",
+          "parameters": [
+            {
+              "name": "variable",
+              "description": "The variable to set",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "value",
+              "description": "The value to set the variable to",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Missing variable parameter."
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/endpoints",
+      "description": "Asterisk endpoints",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all endpoints.",
+          "nickname": "getEndpoints",
+          "type": "array",
+          "items": {
+            "$ref": "Endpoint"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/endpoints/sendMessage",
+      "description": "Send a message to some technology URI or endpoint.",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Send a message to some technology URI or endpoint.",
+          "nickname": "sendEndpointMessage",
+          "parameters": [
+            {
+              "name": "to",
+              "description": "The endpoint resource or technology specific URI to send the message to. Valid resources are sip, pjsip, and xmpp.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "from",
+              "description": "The endpoint resource or technology specific identity to send this message from. Valid resources are sip, pjsip, and xmpp.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "description": "The body of the message",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "variables",
+              "description": "The \"variables\" key in the body object holds technology specific key/value pairs to append to the message. These can be interpreted and used by the various resource types; for example, pjsip and sip resource types will add the key/value pairs as SIP headers. This is a List of JSON objects.",
+              "paramType": "body",
+              "required": false,
+              "allowMultiple": false,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters for sending a message."
+            },
+            {
+              "code": 404,
+              "reason": "Endpoint not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/endpoints/{tech}",
+      "description": "Asterisk endpoints",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List available endoints for a given endpoint technology.",
+          "nickname": "getEndpointsByTech",
+          "parameters": [
+            {
+              "name": "tech",
+              "description": "Technology of the endpoints (sip,iax2,...)",
+              "paramType": "path",
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Endpoints not found"
+            }
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "Endpoint"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/endpoints/{tech}/{resource}",
+      "description": "Single endpoint",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Details for an endpoint.",
+          "nickname": "getEndpoint",
+          "parameters": [
+            {
+              "name": "tech",
+              "description": "Technology of the endpoint",
+              "paramType": "path",
+              "type": "string"
+            },
+            {
+              "name": "resource",
+              "description": "ID of the endpoint",
+              "paramType": "path",
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters for sending a message."
+            },
+            {
+              "code": 404,
+              "reason": "Endpoints not found"
+            }
+          ],
+          "$ref": "Endpoint"
+        }
+      ]
+    },
+    {
+      "path": "/endpoints/{tech}/{resource}/sendMessage",
+      "description": "Send a message to some endpoint in a technology.",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Send a message to some endpoint in a technology.",
+          "nickname": "sendEndpointMessageByTechnology",
+          "parameters": [
+            {
+              "name": "tech",
+              "description": "Technology of the endpoint",
+              "paramType": "path",
+              "type": "string"
+            },
+            {
+              "name": "resource",
+              "description": "ID of the endpoint",
+              "paramType": "path",
+              "type": "string"
+            },
+            {
+              "name": "from",
+              "description": "The endpoint resource or technology specific identity to send this message from. Valid resources are sip, pjsip, and xmpp.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "description": "The body of the message",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "variables",
+              "description": "The \"variables\" key in the body object holds technology specific key/value pairs to append to the message. These can be interpreted and used by the various resource types; for example, pjsip and sip resource types will add the key/value pairs as SIP headers. This is a List of JSON objects.",
+              "paramType": "body",
+              "required": false,
+              "allowMultiple": false,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters for sending a message."
+            },
+            {
+              "code": 404,
+              "reason": "Endpoint not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels",
+      "description": "Active channels",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all active channels in Asterisk.",
+          "nickname": "getChannels",
+          "type": "array",
+          "items": {
+            "$ref": "Channel"
+          }
+        },
+        {
+          "method": "POST",
+          "summary": "Create a new channel (originate).",
+          "notes": "The new channel is created immediately and a snapshot of it returned. If a Stasis application is provided it will be automatically subscribed to the originated channel for further events and updates.",
+          "nickname": "originateChannel",
+          "parameters": [
+            {
+              "name": "endpoint",
+              "description": "Endpoint to call.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "extension",
+              "description": "The extension to dial after the endpoint answers. Mutually exclusive with \u0027app\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "context",
+              "description": "The context to dial after the endpoint answers. If omitted, uses \u0027default\u0027. Mutually exclusive with \u0027app\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "priority",
+              "description": "The priority to dial after the endpoint answers. If omitted, uses 1. Mutually exclusive with \u0027app\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64"
+            },
+            {
+              "name": "label",
+              "description": "The label to dial after the endpoint answers. Will supersede \u0027priority\u0027 if provided. Mutually exclusive with \u0027app\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "app",
+              "description": "The application that is subscribed to the originated channel. When the channel is answered, it will be passed to this Stasis application. Mutually exclusive with \u0027context\u0027, \u0027extension\u0027, \u0027priority\u0027, and \u0027label\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "appArgs",
+              "description": "The application arguments to pass to the Stasis application provided by \u0027app\u0027. Mutually exclusive with \u0027context\u0027, \u0027extension\u0027, \u0027priority\u0027, and \u0027label\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "callerId",
+              "description": "CallerID to use when dialing the endpoint or extension.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "timeout",
+              "description": "Timeout (in seconds) before giving up dialing, or -1 for no timeout.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 30,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "variables",
+              "description": "The \"variables\" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { \"endpoint\": \"SIP/Alice\", \"variables\": { \"CALLERID(name)\": \"Alice\" } }",
+              "paramType": "body",
+              "required": false,
+              "allowMultiple": false,
+              "type": "array",
+              "items": {
+                "$ref": "VariableTuple"
+              }
+            },
+            {
+              "name": "channelId",
+              "description": "The unique id to assign the channel on creation.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "otherChannelId",
+              "description": "The unique id to assign the second channel when using local channels.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "originator",
+              "description": "The unique id of the channel which is originating this one.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "formats",
+              "description": "The format name capability list to use if originator is not specified. Ex. \"ulaw,slin16\".  Format names can be found with \"core show codecs\".",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters for originating a channel."
+            },
+            {
+              "code": 409,
+              "reason": "Channel with given unique ID already exists."
+            }
+          ],
+          "$ref": "Channel"
+        }
+      ]
+    },
+    {
+      "path": "/channels/create",
+      "description": "Create a channel and place it in a Stasis app, but do not dial the channel yet.",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Create channel.",
+          "nickname": "createChannel",
+          "parameters": [
+            {
+              "name": "endpoint",
+              "description": "Endpoint for channel communication",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "app",
+              "description": "Stasis Application to place channel into",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "appArgs",
+              "description": "The application arguments to pass to the Stasis application provided by \u0027app\u0027. Mutually exclusive with \u0027context\u0027, \u0027extension\u0027, \u0027priority\u0027, and \u0027label\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "channelId",
+              "description": "The unique id to assign the channel on creation.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "otherChannelId",
+              "description": "The unique id to assign the second channel when using local channels.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "originator",
+              "description": "Unique ID of the calling channel",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "formats",
+              "description": "The format name capability list to use if originator is not specified. Ex. \"ulaw,slin16\".  Format names can be found with \"core show codecs\".",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 409,
+              "reason": "Channel with given unique ID already exists."
+            }
+          ],
+          "$ref": "Channel"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}",
+      "description": "Active channel",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Channel details.",
+          "nickname": "getChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            }
+          ],
+          "$ref": "Channel"
+        },
+        {
+          "method": "POST",
+          "summary": "Create a new channel (originate with id).",
+          "notes": "The new channel is created immediately and a snapshot of it returned. If a Stasis application is provided it will be automatically subscribed to the originated channel for further events and updates.",
+          "nickname": "originateChannelWithId",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "The unique id to assign the channel on creation.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "endpoint",
+              "description": "Endpoint to call.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "extension",
+              "description": "The extension to dial after the endpoint answers. Mutually exclusive with \u0027app\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "context",
+              "description": "The context to dial after the endpoint answers. If omitted, uses \u0027default\u0027. Mutually exclusive with \u0027app\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "priority",
+              "description": "The priority to dial after the endpoint answers. If omitted, uses 1. Mutually exclusive with \u0027app\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64"
+            },
+            {
+              "name": "label",
+              "description": "The label to dial after the endpoint answers. Will supersede \u0027priority\u0027 if provided. Mutually exclusive with \u0027app\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "app",
+              "description": "The application that is subscribed to the originated channel. When the channel is answered, it will be passed to this Stasis application. Mutually exclusive with \u0027context\u0027, \u0027extension\u0027, \u0027priority\u0027, and \u0027label\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "appArgs",
+              "description": "The application arguments to pass to the Stasis application provided by \u0027app\u0027. Mutually exclusive with \u0027context\u0027, \u0027extension\u0027, \u0027priority\u0027, and \u0027label\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "callerId",
+              "description": "CallerID to use when dialing the endpoint or extension.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "timeout",
+              "description": "Timeout (in seconds) before giving up dialing, or -1 for no timeout.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 30,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "variables",
+              "description": "The \"variables\" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { \"endpoint\": \"SIP/Alice\", \"variables\": { \"CALLERID(name)\": \"Alice\" } }",
+              "paramType": "body",
+              "required": false,
+              "allowMultiple": false,
+              "type": "array",
+              "items": {
+                "$ref": "VariableTuple"
+              }
+            },
+            {
+              "name": "otherChannelId",
+              "description": "The unique id to assign the second channel when using local channels.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "originator",
+              "description": "The unique id of the channel which is originating this one.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "formats",
+              "description": "The format name capability list to use if originator is not specified. Ex. \"ulaw,slin16\".  Format names can be found with \"core show codecs\".",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters for originating a channel."
+            },
+            {
+              "code": 409,
+              "reason": "Channel with given unique ID already exists."
+            }
+          ],
+          "$ref": "Channel"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Delete (i.e. hangup) a channel.",
+          "nickname": "hangupChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "reason",
+              "description": "Reason for hanging up the channel",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defalutValue": "normal",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "normal",
+                  "busy",
+                  "congestion",
+                  "no_answer",
+                  "answered_elsewhere"
+                ]
+              },
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid reason for hangup provided"
+            },
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/continue",
+      "description": "Exit application; continue execution in the dialplan",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Exit application; continue execution in the dialplan.",
+          "nickname": "continueChannelInDialplan",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "context",
+              "description": "The context to continue to.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "extension",
+              "description": "The extension to continue to.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "priority",
+              "description": "The priority to continue to.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "label",
+              "description": "The label to continue to - will supersede \u0027priority\u0027 if both are provided.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/redirect",
+      "description": "Inform the channel that it should redirect itself to a different location. Note that this will almost certainly cause the channel to exit the application.",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Redirect the channel to a different location.",
+          "nickname": "redirectChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "endpoint",
+              "description": "The endpoint to redirect the channel to",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Endpoint parameter not provided"
+            },
+            {
+              "code": 404,
+              "reason": "Channel or endpoint not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 422,
+              "reason": "Endpoint is not the same type as the channel"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/answer",
+      "description": "Answer a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Answer a channel.",
+          "nickname": "answerChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/ring",
+      "description": "Send a ringing indication to a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Indicate ringing to a channel.",
+          "nickname": "ringChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Stop ringing indication on a channel if locally generated.",
+          "nickname": "ringChannelStop",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/dtmf",
+      "description": "Send DTMF to a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Send provided DTMF to a given channel.",
+          "nickname": "sendChannelDTMF",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "dtmf",
+              "description": "DTMF To send.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "before",
+              "description": "Amount of time to wait before DTMF digits (specified in milliseconds) start.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "between",
+              "description": "Amount of time in between DTMF digits (specified in milliseconds).",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 100,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "duration",
+              "description": "Length of each DTMF digit (specified in milliseconds).",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 100,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "after",
+              "description": "Amount of time to wait after DTMF digits (specified in milliseconds) end.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "DTMF is required"
+            },
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/mute",
+      "description": "Mute a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Mute a channel.",
+          "nickname": "muteChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "direction",
+              "description": "Direction in which to mute audio",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "both",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "both",
+                  "in",
+                  "out"
+                ]
+              },
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Unmute a channel.",
+          "nickname": "unmute",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "direction",
+              "description": "Direction in which to unmute audio",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "both",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "both",
+                  "in",
+                  "out"
+                ]
+              },
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/hold",
+      "description": "Put a channel on hold",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Hold a channel.",
+          "nickname": "holdChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Remove a channel from hold.",
+          "nickname": "unhold",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/moh",
+      "description": "Play music on hold to a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Play music on hold to a channel.",
+          "notes": "Using media operations such as /play on a channel playing MOH in this manner will suspend MOH without resuming automatically. If continuing music on hold is desired, the stasis application must reinitiate music on hold.",
+          "nickname": "startChannelMoh",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "mohClass",
+              "description": "Music on hold class to use",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Stop playing music on hold to a channel.",
+          "nickname": "stopMoh",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/silence",
+      "description": "Play silence to a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Play silence to a channel.",
+          "notes": "Using media operations such as /play on a channel playing silence in this manner will suspend silence without resuming automatically.",
+          "nickname": "startChannelSilence",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Stop playing silence to a channel.",
+          "nickname": "stopSilence",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/play",
+      "description": "Play media to a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Start playback of media.",
+          "notes": "The media URI may be any of a number of URI\u0027s. Currently sound:, recording:, number:, digits:, characters:, and tone: URI\u0027s are supported. This operation creates a playback resource that can be used to control the playback of media (pause, rewind, fast forward, etc.)",
+          "nickname": "playChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "media",
+              "description": "Media URIs to play.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            },
+            {
+              "name": "lang",
+              "description": "For sounds, selects language for sound.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "offsetms",
+              "description": "Number of milliseconds to skip before playing. Only applies to the first URI if multiple media URIs are specified.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "skipms",
+              "description": "Number of milliseconds to skip for forward/reverse operations.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 3000,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "playbackId",
+              "description": "Playback ID.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "$ref": "Playback"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/play/{playbackId}",
+      "description": "Play media to a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Start playback of media and specify the playbackId.",
+          "notes": "The media URI may be any of a number of URI\u0027s. Currently sound:, recording:, number:, digits:, characters:, and tone: URI\u0027s are supported. This operation creates a playback resource that can be used to control the playback of media (pause, rewind, fast forward, etc.)",
+          "nickname": "playChannelWithId",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "playbackId",
+              "description": "Playback ID.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "media",
+              "description": "Media URIs to play.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            },
+            {
+              "name": "lang",
+              "description": "For sounds, selects language for sound.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "offsetms",
+              "description": "Number of milliseconds to skip before playing. Only applies to the first URI if multiple media URIs are specified.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "skipms",
+              "description": "Number of milliseconds to skip for forward/reverse operations.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 3000,
+              "type": "integer",
+              "format": "int32"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            },
+            {
+              "code": 412,
+              "reason": "Channel in invalid state"
+            }
+          ],
+          "$ref": "Playback"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/record",
+      "description": "Record audio from a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Start a recording.",
+          "notes": "Record audio from a channel. Note that this will not capture audio sent to the channel. The bridge itself has a record feature if that\u0027s what you want.",
+          "nickname": "recordChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "description": "Recording\u0027s filename",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "format",
+              "description": "Format to encode audio in",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "maxDurationSeconds",
+              "description": "Maximum duration of the recording, in seconds. 0 for no limit",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "maxSilenceSeconds",
+              "description": "Maximum duration of silence, in seconds. 0 for no limit",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "ifExists",
+              "description": "Action to take if a recording with the same name already exists.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "fail",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "fail",
+                  "overwrite",
+                  "append"
+                ]
+              },
+              "type": "string"
+            },
+            {
+              "name": "beep",
+              "description": "Play beep when recording begins",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": false,
+              "type": "boolean"
+            },
+            {
+              "name": "terminateOn",
+              "description": "DTMF input to terminate recording",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "none",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "none",
+                  "any",
+                  "*",
+                  "#"
+                ]
+              },
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters"
+            },
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel is not in a Stasis application; the channel is currently bridged with other hcannels; A recording with the same name already exists on the system and can not be overwritten because it is in progress or ifExists\u003dfail"
+            },
+            {
+              "code": 422,
+              "reason": "The format specified is unknown on this system"
+            }
+          ],
+          "$ref": "LiveRecording"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/variable",
+      "description": "Variables on a channel",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the value of a channel variable or function.",
+          "nickname": "getChannelVar",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "variable",
+              "description": "The channel variable or function to get",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Missing variable parameter."
+            },
+            {
+              "code": 404,
+              "reason": "Channel or variable not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            }
+          ],
+          "$ref": "Variable"
+        },
+        {
+          "method": "POST",
+          "summary": "Set the value of a channel variable or function.",
+          "nickname": "setChannelVar",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "variable",
+              "description": "The channel variable or function to set",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "value",
+              "description": "The value to set the variable to",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Missing variable parameter."
+            },
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in a Stasis application"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/snoop",
+      "description": "Snoop (spy/whisper) on a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Start snooping.",
+          "notes": "Snoop (spy/whisper) on a specific channel.",
+          "nickname": "snoopChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "spy",
+              "description": "Direction of audio to spy on",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "none",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "none",
+                  "both",
+                  "out",
+                  "in"
+                ]
+              },
+              "type": "string"
+            },
+            {
+              "name": "whisper",
+              "description": "Direction of audio to whisper into",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "none",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "none",
+                  "both",
+                  "out",
+                  "in"
+                ]
+              },
+              "type": "string"
+            },
+            {
+              "name": "app",
+              "description": "Application the snooping channel is placed into",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "appArgs",
+              "description": "The application arguments to pass to the Stasis application",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "snoopId",
+              "description": "Unique ID to assign to snooping channel",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters"
+            },
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            }
+          ],
+          "$ref": "Channel"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/snoop/{snoopId}",
+      "description": "Snoop (spy/whisper) on a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Start snooping.",
+          "notes": "Snoop (spy/whisper) on a specific channel.",
+          "nickname": "snoopChannelWithId",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "snoopId",
+              "description": "Unique ID to assign to snooping channel",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "spy",
+              "description": "Direction of audio to spy on",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "none",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "none",
+                  "both",
+                  "out",
+                  "in"
+                ]
+              },
+              "type": "string"
+            },
+            {
+              "name": "whisper",
+              "description": "Direction of audio to whisper into",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "none",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "none",
+                  "both",
+                  "out",
+                  "in"
+                ]
+              },
+              "type": "string"
+            },
+            {
+              "name": "app",
+              "description": "Application the snooping channel is placed into",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "appArgs",
+              "description": "The application arguments to pass to the Stasis application",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters"
+            },
+            {
+              "code": 404,
+              "reason": "Channel not found"
+            }
+          ],
+          "$ref": "Channel"
+        }
+      ]
+    },
+    {
+      "path": "/channels/{channelId}/dial",
+      "description": "Dial a channel",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Dial a created channel.",
+          "nickname": "dialChannel",
+          "parameters": [
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "caller",
+              "description": "Channel ID of caller",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "timeout",
+              "description": "Dial timeout",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Channel cannot be found."
+            },
+            {
+              "code": 409,
+              "reason": "Channel cannot be dialed."
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/bridges",
+      "description": "Active bridges",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all active bridges in Asterisk.",
+          "nickname": "getBridges",
+          "type": "array",
+          "items": {
+            "$ref": "Bridge"
+          }
+        },
+        {
+          "method": "POST",
+          "summary": "Create a new bridge.",
+          "notes": "This bridge persists until it has been shut down, or Asterisk has been shut down.",
+          "nickname": "createBridge",
+          "parameters": [
+            {
+              "name": "type",
+              "description": "Comma separated list of bridge type attributes (mixing, holding, dtmf_events, proxy_media, video_sfu).",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "bridgeId",
+              "description": "Unique ID to give to the bridge being created.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "description": "Name to give to the bridge being created.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "$ref": "Bridge"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}",
+      "description": "Individual bridge",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Create a new bridge or updates an existing one.",
+          "notes": "This bridge persists until it has been shut down, or Asterisk has been shut down.",
+          "nickname": "createOrUpdateBridge",
+          "parameters": [
+            {
+              "name": "type",
+              "description": "Comma separated list of bridge type attributes (mixing, holding, dtmf_events, proxy_media, video_sfu) to set.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "bridgeId",
+              "description": "Unique ID to give to the bridge being created.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "description": "Set the name of the bridge.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "$ref": "Bridge"
+        },
+        {
+          "method": "GET",
+          "summary": "Get bridge details.",
+          "nickname": "getBridge",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            }
+          ],
+          "$ref": "Bridge"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Shut down a bridge.",
+          "notes": "If any channels are in this bridge, they will be removed and resume whatever they were doing beforehand.",
+          "nickname": "deleteBridge",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}/addChannel",
+      "description": "Add a channel to a bridge",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Add a channel to a bridge.",
+          "nickname": "addChannelToBridge",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "channel",
+              "description": "Ids of channels to add to bridge",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            },
+            {
+              "name": "role",
+              "description": "Channel\u0027s role in the bridge",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            },
+            {
+              "code": 409,
+              "reason": "Bridge not in Stasis application; Channel currently recording"
+            },
+            {
+              "code": 422,
+              "reason": "Channel not in Stasis application"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}/removeChannel",
+      "description": "Remove a channel from a bridge",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Remove a channel from a bridge.",
+          "nickname": "removeChannelFromBridge",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "channel",
+              "description": "Ids of channels to remove from bridge",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Channel not found"
+            },
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            },
+            {
+              "code": 409,
+              "reason": "Bridge not in Stasis application"
+            },
+            {
+              "code": 422,
+              "reason": "Channel not in this bridge"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}/videoSource/{channelId}",
+      "description": "Set a channel as the video source in a multi-party bridge",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Set a channel as the video source in a multi-party mixing bridge. This operation has no effect on bridges with two or fewer participants.",
+          "nickname": "setBridgeChannelVideoSource",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "channelId",
+              "description": "Channel\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Bridge or Channel not found"
+            },
+            {
+              "code": 409,
+              "reason": "Channel not in Stasis application"
+            },
+            {
+              "code": 422,
+              "reason": "Channel not in this Bridge"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}/videoSource",
+      "description": "Removes any explicit video source",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Removes any explicit video source in a multi-party mixing bridge. This operation has no effect on bridges with two or fewer participants. When no explicit video source is set, talk detection will be used to determine the active video stream.",
+          "nickname": "clearBridgeChannelVideoSource",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}/moh",
+      "description": "Play music on hold to a bridge",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Play music on hold to a bridge or change the MOH class that is playing.",
+          "nickname": "startBridgeMoh",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "mohClass",
+              "description": "Channel\u0027s id",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            },
+            {
+              "code": 409,
+              "reason": "Bridge not in Stasis application"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Stop playing music on hold to a bridge.",
+          "notes": "This will only stop music on hold being played via POST bridges/{bridgeId}/moh.",
+          "nickname": "stopBridgeMoh",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            },
+            {
+              "code": 409,
+              "reason": "Bridge not in Stasis application"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}/play",
+      "description": "Play media to the participants of a bridge",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Start playback of media on a bridge.",
+          "notes": "The media URI may be any of a number of URI\u0027s. Currently sound:, recording:, number:, digits:, characters:, and tone: URI\u0027s are supported. This operation creates a playback resource that can be used to control the playback of media (pause, rewind, fast forward, etc.)",
+          "nickname": "playBridgeMedia",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "media",
+              "description": "Media URIs to play.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            },
+            {
+              "name": "lang",
+              "description": "For sounds, selects language for sound.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "offsetms",
+              "description": "Number of milliseconds to skip before playing. Only applies to the first URI if multiple media URIs are specified.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "skipms",
+              "description": "Number of milliseconds to skip for forward/reverse operations.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 3000,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "playbackId",
+              "description": "Playback Id.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            },
+            {
+              "code": 409,
+              "reason": "Bridge not in a Stasis application"
+            }
+          ],
+          "$ref": "Playback"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}/play/{playbackId}",
+      "description": "Play media to a bridge",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Start playback of media on a bridge.",
+          "notes": "The media URI may be any of a number of URI\u0027s. Currently sound:, recording:, number:, digits:, characters:, and tone: URI\u0027s are supported. This operation creates a playback resource that can be used to control the playback of media (pause, rewind, fast forward, etc.)",
+          "nickname": "playBridgeMediaWithId",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "playbackId",
+              "description": "Playback ID.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "media",
+              "description": "Media URIs to play.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            },
+            {
+              "name": "lang",
+              "description": "For sounds, selects language for sound.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "offsetms",
+              "description": "Number of milliseconds to skip before playing. Only applies to the first URI if multiple media URIs are specified.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "skipms",
+              "description": "Number of milliseconds to skip for forward/reverse operations.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 3000,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            },
+            {
+              "code": 409,
+              "reason": "Bridge not in a Stasis application"
+            }
+          ],
+          "$ref": "Playback"
+        }
+      ]
+    },
+    {
+      "path": "/bridges/{bridgeId}/record",
+      "description": "Record audio on a bridge",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Start a recording.",
+          "notes": "This records the mixed audio from all channels participating in this bridge.",
+          "nickname": "recordBridge",
+          "parameters": [
+            {
+              "name": "bridgeId",
+              "description": "Bridge\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "description": "Recording\u0027s filename",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "format",
+              "description": "Format to encode audio in",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "maxDurationSeconds",
+              "description": "Maximum duration of the recording, in seconds. 0 for no limit.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "maxSilenceSeconds",
+              "description": "Maximum duration of silence, in seconds. 0 for no limit.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": 0,
+              "allowableValues": {
+                "valueType": "RANGE",
+                "min": 0
+              },
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "ifExists",
+              "description": "Action to take if a recording with the same name already exists.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "fail",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "fail",
+                  "overwrite",
+                  "append"
+                ]
+              },
+              "type": "string"
+            },
+            {
+              "name": "beep",
+              "description": "Play beep when recording begins",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": false,
+              "type": "boolean"
+            },
+            {
+              "name": "terminateOn",
+              "description": "DTMF input to terminate recording.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "defaultValue": "none",
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "none",
+                  "any",
+                  "*",
+                  "#"
+                ]
+              },
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid parameters"
+            },
+            {
+              "code": 404,
+              "reason": "Bridge not found"
+            },
+            {
+              "code": 409,
+              "reason": "Bridge is not in a Stasis application; A recording with the same name already exists on the system and can not be overwritten because it is in progress or ifExists\u003dfail"
+            },
+            {
+              "code": 422,
+              "reason": "The format specified is unknown on this system"
+            }
+          ],
+          "$ref": "LiveRecording"
+        }
+      ]
+    },
+    {
+      "path": "/recordings/stored",
+      "description": "Recordings",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List recordings that are complete.",
+          "nickname": "getStoredRecordings",
+          "type": "array",
+          "items": {
+            "$ref": "StoredRecording"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/recordings/stored/{recordingName}",
+      "description": "Individual recording",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get a stored recording\u0027s details.",
+          "nickname": "getStoredRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            }
+          ],
+          "$ref": "StoredRecording"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Delete a stored recording.",
+          "nickname": "deleteStoredRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/recordings/stored/{recordingName}/file",
+      "description": "The actual file associated with the stored recording",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the file associated with the stored recording.",
+          "nickname": "getStoredRecordingFile",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 403,
+              "reason": "The recording file could not be opened"
+            },
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            }
+          ],
+          "$ref": "binary"
+        }
+      ]
+    },
+    {
+      "path": "/recordings/stored/{recordingName}/copy",
+      "description": "Copy an individual recording",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Copy a stored recording.",
+          "nickname": "copyStoredRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording to copy",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "destinationRecordingName",
+              "description": "The destination name of the recording",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            },
+            {
+              "code": 409,
+              "reason": "A recording with the same name already exists on the system"
+            }
+          ],
+          "$ref": "StoredRecording"
+        }
+      ]
+    },
+    {
+      "path": "/recordings/live/{recordingName}",
+      "description": "A recording that is in progress",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List live recordings.",
+          "nickname": "getLiveRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            }
+          ],
+          "$ref": "LiveRecording"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Stop a live recording and discard it.",
+          "nickname": "cancelLiveRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/recordings/live/{recordingName}/stop",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Stop a live recording and store it.",
+          "nickname": "stopLiveRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/recordings/live/{recordingName}/pause",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Pause a live recording.",
+          "notes": "Pausing a recording suspends silence detection, which will be restarted when the recording is unpaused. Paused time is not included in the accounting for maxDurationSeconds.",
+          "nickname": "pauseLiveRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            },
+            {
+              "code": 409,
+              "reason": "Recording not in session"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Unpause a live recording.",
+          "nickname": "unpauseLiveRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            },
+            {
+              "code": 409,
+              "reason": "Recording not in session"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/recordings/live/{recordingName}/mute",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Mute a live recording.",
+          "notes": "Muting a recording suspends silence detection, which will be restarted when the recording is unmuted.",
+          "nickname": "muteLiveRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            },
+            {
+              "code": 409,
+              "reason": "Recording not in session"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Unmute a live recording.",
+          "nickname": "unmuteLiveRecording",
+          "parameters": [
+            {
+              "name": "recordingName",
+              "description": "The name of the recording",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Recording not found"
+            },
+            {
+              "code": 409,
+              "reason": "Recording not in session"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/sounds",
+      "description": "Sounds",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all sounds.",
+          "nickname": "getSounds",
+          "parameters": [
+            {
+              "name": "lang",
+              "description": "Lookup sound for a specific language.",
+              "paramType": "query",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "format",
+              "description": "Lookup sound in a specific format.",
+              "paramType": "query",
+              "required": false,
+              "__note": "core show translation can show translation paths between formats, along with relative costs. so this could be just installed format, or we could follow that for transcoded formats.",
+              "type": "string"
+            }
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "Sound"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/sounds/{soundId}",
+      "description": "Individual sound",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get a sound\u0027s details.",
+          "nickname": "getSound",
+          "parameters": [
+            {
+              "name": "soundId",
+              "description": "Sound\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "$ref": "Sound"
+        }
+      ]
+    },
+    {
+      "path": "/playbacks/{playbackId}",
+      "description": "Control object for a playback operation.",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get a playback\u0027s details.",
+          "nickname": "getPlayback",
+          "parameters": [
+            {
+              "name": "playbackId",
+              "description": "Playback\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "The playback cannot be found"
+            }
+          ],
+          "$ref": "Playback"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Stop a playback.",
+          "nickname": "stopPlayback",
+          "parameters": [
+            {
+              "name": "playbackId",
+              "description": "Playback\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "The playback cannot be found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/playbacks/{playbackId}/control",
+      "description": "Control object for a playback operation.",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Control a playback.",
+          "nickname": "controlPlayback",
+          "parameters": [
+            {
+              "name": "playbackId",
+              "description": "Playback\u0027s id",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "operation",
+              "description": "Operation to perform on the playback.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "restart",
+                  "pause",
+                  "unpause",
+                  "reverse",
+                  "forward"
+                ]
+              },
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "The provided operation parameter was invalid"
+            },
+            {
+              "code": 404,
+              "reason": "The playback cannot be found"
+            },
+            {
+              "code": 409,
+              "reason": "The operation cannot be performed in the playback\u0027s current state"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/deviceStates",
+      "description": "Device states",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all ARI controlled device states.",
+          "nickname": "getDeviceStates",
+          "type": "array",
+          "items": {
+            "$ref": "DeviceState"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/deviceStates/{deviceName}",
+      "description": "Device state",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieve the current state of a device.",
+          "nickname": "getDeviceState",
+          "parameters": [
+            {
+              "name": "deviceName",
+              "description": "Name of the device",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "$ref": "DeviceState"
+        },
+        {
+          "method": "PUT",
+          "summary": "Change the state of a device controlled by ARI. (Note - implicitly creates the device state).",
+          "nickname": "updateDeviceState",
+          "parameters": [
+            {
+              "name": "deviceName",
+              "description": "Name of the device",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "deviceState",
+              "description": "Device state value",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "NOT_INUSE",
+                  "INUSE",
+                  "BUSY",
+                  "INVALID",
+                  "UNAVAILABLE",
+                  "RINGING",
+                  "RINGINUSE",
+                  "ONHOLD"
+                ]
+              },
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Device name is missing"
+            },
+            {
+              "code": 409,
+              "reason": "Uncontrolled device specified"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Destroy a device-state controlled by ARI.",
+          "nickname": "deleteDeviceState",
+          "parameters": [
+            {
+              "name": "deviceName",
+              "description": "Name of the device",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Device name is missing"
+            },
+            {
+              "code": 409,
+              "reason": "Uncontrolled device specified"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/mailboxes",
+      "description": "Mailboxes",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all mailboxes.",
+          "nickname": "getMailboxes",
+          "type": "array",
+          "items": {
+            "$ref": "Mailbox"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/mailboxes/{mailboxName}",
+      "description": "Mailbox state",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieve the current state of a mailbox.",
+          "nickname": "getMailbox",
+          "parameters": [
+            {
+              "name": "mailboxName",
+              "description": "Name of the mailbox",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Mailbox not found"
+            }
+          ],
+          "$ref": "Mailbox"
+        },
+        {
+          "method": "PUT",
+          "summary": "Change the state of a mailbox. (Note - implicitly creates the mailbox).",
+          "nickname": "updateMailbox",
+          "parameters": [
+            {
+              "name": "mailboxName",
+              "description": "Name of the mailbox",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "oldMessages",
+              "description": "Count of old messages in the mailbox",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32"
+            },
+            {
+              "name": "newMessages",
+              "description": "Count of new messages in the mailbox",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Mailbox not found"
+            }
+          ],
+          "type": "void"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Destroy a mailbox.",
+          "nickname": "deleteMailbox",
+          "parameters": [
+            {
+              "name": "mailboxName",
+              "description": "Name of the mailbox",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Mailbox not found"
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/events",
+      "description": "Events from Asterisk to applications",
+      "operations": [
+        {
+          "method": "GET",
+          "upgrade": "websocket",
+          "websocketProtocol": "ari",
+          "summary": "WebSocket connection for events.",
+          "nickname": "eventWebsocket",
+          "parameters": [
+            {
+              "name": "app",
+              "description": "Applications to subscribe to.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            },
+            {
+              "name": "subscribeAll",
+              "description": "Subscribe to all Asterisk events. If provided, the applications listed will be subscribed to all events, effectively disabling the application specific subscriptions. Default is \u0027false\u0027.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "boolean"
+            }
+          ],
+          "$ref": "Message"
+        }
+      ]
+    },
+    {
+      "path": "/events/user/{eventName}",
+      "description": "Stasis application user events",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Generate a user event.",
+          "nickname": "addUserEvent",
+          "parameters": [
+            {
+              "name": "eventName",
+              "description": "Event name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "application",
+              "description": "The name of the application that will receive this event",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "source",
+              "description": "URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}/{resource}, deviceState:{deviceName}",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": true,
+              "type": "string"
+            },
+            {
+              "name": "variables",
+              "description": "The \"variables\" key in the body object holds custom key/value pairs to add to the user event. Ex. { \"variables\": { \"key\": \"value\" } }",
+              "paramType": "body",
+              "required": false,
+              "allowMultiple": false,
+              "type": "array",
+              "items": {
+                "$ref": "CustomVariable"
+              }
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Application does not exist."
+            },
+            {
+              "code": 422,
+              "reason": "Event source not found."
+            },
+            {
+              "code": 400,
+              "reason": "Invalid even tsource URI or userevent data."
+            }
+          ],
+          "type": "void"
+        }
+      ]
+    },
+    {
+      "path": "/applications",
+      "description": "Stasis applications",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all applications.",
+          "nickname": "getApplications",
+          "type": "array",
+          "items": {
+            "$ref": "Application"
+          }
+        }
+      ]
+    },
+    {
+      "path": "/applications/{applicationName}",
+      "description": "Stasis application",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get details of an application.",
+          "nickname": "getApplication",
+          "parameters": [
+            {
+              "name": "applicationName",
+              "description": "Application\u0027s name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 404,
+              "reason": "Application does not exist."
+            }
+          ],
+          "$ref": "Application"
+        }
+      ]
+    },
+    {
+      "path": "/applications/{applicationName}/subscription",
+      "description": "Stasis application",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Subscribe an application to a event source.",
+          "notes": "Returns the state of the application after the subscriptions have changed",
+          "nickname": "subscribeToApplication",
+          "parameters": [
+            {
+              "name": "applicationName",
+              "description": "Application\u0027s name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "eventSource",
+              "description": "URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Missing parameter."
+            },
+            {
+              "code": 404,
+              "reason": "Application does not exist."
+            },
+            {
+              "code": 422,
+              "reason": "Event source does not exist."
+            }
+          ],
+          "$ref": "Application"
+        },
+        {
+          "method": "DELETE",
+          "summary": "Unsubscribe an application from an event source.",
+          "notes": "Returns the state of the application after the subscriptions have changed",
+          "nickname": "unsubscribeFromApplication",
+          "parameters": [
+            {
+              "name": "applicationName",
+              "description": "Application\u0027s name",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "eventSource",
+              "description": "URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": true,
+              "type": "string"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Missing parameter; event source scheme not recognized."
+            },
+            {
+              "code": 404,
+              "reason": "Application does not exist."
+            },
+            {
+              "code": 409,
+              "reason": "Application not subscribed to event source."
+            },
+            {
+              "code": 422,
+              "reason": "Event source does not exist."
+            }
+          ],
+          "$ref": "Application"
+        }
+      ]
+    }
+  ],
+  "models": {
+    "AsteriskInfo": {
+      "id": "AsteriskInfo",
+      "description": "Asterisk system information",
+      "properties": {
+        "build": {
+          "description": "Info about how Asterisk was built",
+          "$ref": "BuildInfo"
+        },
+        "system": {
+          "description": "Info about the system running Asterisk",
+          "$ref": "SystemInfo"
+        },
+        "config": {
+          "description": "Info about Asterisk configuration",
+          "$ref": "ConfigInfo"
+        },
+        "status": {
+          "description": "Info about Asterisk status",
+          "$ref": "StatusInfo"
+        }
+      }
+    },
+    "ConfigObject": {
+      "id": "ConfigObject",
+      "description": "A configuration object containing ConfigTuples.",
+      "properties": {
+        "fields": {
+          "description": "Configuration tuples.",
+          "type": "array",
+          "items": {
+            "$ref": "ConfigTuple"
+          }
+        }
+      },
+      "required": [
+        "fields"
+      ]
+    },
+    "ConfigTuple": {
+      "id": "ConfigTuple",
+      "description": "A key/value pair that makes up part of a configuration object.",
+      "properties": {
+        "attribute": {
+          "description": "A configuration object attribute.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value for the attribute.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "attribute",
+        "value"
+      ]
+    },
+    "LogChannel": {
+      "id": "LogChannel",
+      "description": "Details of an Asterisk log channel",
+      "properties": {
+        "channel": {
+          "description": "The log channel path",
+          "type": "string"
+        },
+        "type": {
+          "description": "Types of logs for the log channel",
+          "type": "string"
+        },
+        "status": {
+          "description": "Whether or not a log type is enabled",
+          "type": "string"
+        },
+        "configuration": {
+          "description": "The various log levels",
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel",
+        "type",
+        "status",
+        "configuration"
+      ]
+    },
+    "SetId": {
+      "id": "SetId",
+      "description": "Effective user/group id",
+      "properties": {
+        "user": {
+          "description": "Effective user id.",
+          "type": "string"
+        },
+        "group": {
+          "description": "Effective group id.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user",
+        "group"
+      ]
+    },
+    "Variable": {
+      "id": "Variable",
+      "description": "The value of a channel variable",
+      "properties": {
+        "value": {
+          "description": "The value of the variable requested",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "Module": {
+      "id": "Module",
+      "description": "Details of an Asterisk module",
+      "properties": {
+        "name": {
+          "description": "The name of this module",
+          "type": "string"
+        },
+        "description": {
+          "description": "The description of this module",
+          "type": "string"
+        },
+        "use_count": {
+          "description": "The number of times this module is being used",
+          "type": "integer",
+          "format": "int32"
+        },
+        "status": {
+          "description": "The running status of this module",
+          "type": "string"
+        },
+        "support_level": {
+          "description": "The support state of this module",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "use_count",
+        "status",
+        "support_level"
+      ]
+    },
+    "SystemInfo": {
+      "id": "SystemInfo",
+      "description": "Info about Asterisk",
+      "properties": {
+        "version": {
+          "description": "Asterisk version.",
+          "type": "string"
+        },
+        "entity_id": {
+          "description": "",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "entity_id"
+      ]
+    },
+    "BuildInfo": {
+      "id": "BuildInfo",
+      "description": "Info about how Asterisk was built",
+      "properties": {
+        "os": {
+          "description": "OS Asterisk was built on.",
+          "type": "string"
+        },
+        "kernel": {
+          "description": "Kernel version Asterisk was built on.",
+          "type": "string"
+        },
+        "options": {
+          "description": "Compile time options, or empty string if default.",
+          "type": "string"
+        },
+        "machine": {
+          "description": "Machine architecture (x86_64, i686, ppc, etc.)",
+          "type": "string"
+        },
+        "date": {
+          "description": "Date and time when Asterisk was built.",
+          "type": "string"
+        },
+        "user": {
+          "description": "Username that build Asterisk",
+          "type": "string"
+        }
+      },
+      "required": [
+        "os",
+        "kernel",
+        "options",
+        "machine",
+        "date",
+        "user"
+      ]
+    },
+    "ConfigInfo": {
+      "id": "ConfigInfo",
+      "description": "Info about Asterisk configuration",
+      "properties": {
+        "name": {
+          "description": "Asterisk system name.",
+          "type": "string"
+        },
+        "default_language": {
+          "description": "Default language for media playback.",
+          "type": "string"
+        },
+        "max_channels": {
+          "description": "Maximum number of simultaneous channels.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "max_open_files": {
+          "description": "Maximum number of open file handles (files, sockets).",
+          "type": "integer",
+          "format": "int32"
+        },
+        "max_load": {
+          "description": "Maximum load avg on system.",
+          "type": "number",
+          "format": "double"
+        },
+        "setid": {
+          "description": "Effective user/group id for running Asterisk.",
+          "$ref": "SetId"
+        }
+      },
+      "required": [
+        "name",
+        "default_language",
+        "setid"
+      ]
+    },
+    "StatusInfo": {
+      "id": "StatusInfo",
+      "description": "Info about Asterisk status",
+      "properties": {
+        "startup_time": {
+          "description": "Time when Asterisk was started.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_reload_time": {
+          "description": "Time when Asterisk was last reloaded.",
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "startup_time",
+        "last_reload_time"
+      ]
+    },
+    "TextMessageVariable": {
+      "id": "TextMessageVariable",
+      "description": "A key/value pair variable in a text message.",
+      "properties": {
+        "key": {
+          "description": "A unique key identifying the variable.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the variable.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
+    "TextMessage": {
+      "id": "TextMessage",
+      "description": "A text message.",
+      "properties": {
+        "from": {
+          "description": "A technology specific URI specifying the source of the message. For sip and pjsip technologies, any SIP URI can be specified. For xmpp, the URI must correspond to the client connection being used to send the message.",
+          "type": "string"
+        },
+        "to": {
+          "description": "A technology specific URI specifying the destination of the message. Valid technologies include sip, pjsip, and xmp. The destination of a message should be an endpoint.",
+          "type": "string"
+        },
+        "body": {
+          "description": "The text of the message.",
+          "type": "string"
+        },
+        "variables": {
+          "description": "Technology specific key/value pairs associated with the message.",
+          "type": "array",
+          "items": {
+            "$ref": "TextMessageVariable"
+          }
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "body"
+      ]
+    },
+    "Endpoint": {
+      "id": "Endpoint",
+      "description": "An external device that may offer/accept calls to/from Asterisk.\n\nUnlike most resources, which have a single unique identifier, an endpoint is uniquely identified by the technology/resource pair.",
+      "properties": {
+        "technology": {
+          "description": "Technology of the endpoint",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Identifier of the endpoint, specific to the given technology.",
+          "type": "string"
+        },
+        "state": {
+          "description": "Endpoint\u0027s state",
+          "type": "string"
+        },
+        "channel_ids": {
+          "description": "Id\u0027s of channels associated with this endpoint",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "technology",
+        "resource",
+        "channel_ids"
+      ]
+    },
+    "Dialed": {
+      "id": "Dialed",
+      "description": "Dialed channel information.",
+      "properties": {}
+    },
+    "Channel": {
+      "id": "Channel",
+      "description": "A specific communication connection between Asterisk and an Endpoint.",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the channel.\n\nThis is the same as the Uniqueid field in AMI.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the channel (i.e. SIP/foo-0000a7e3)",
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "caller": {
+          "$ref": "CallerID"
+        },
+        "connected": {
+          "$ref": "CallerID"
+        },
+        "accountcode": {
+          "type": "string"
+        },
+        "dialplan": {
+          "description": "Current location in the dialplan",
+          "$ref": "DialplanCEP"
+        },
+        "creationtime": {
+          "description": "Timestamp when channel was created",
+          "type": "string",
+          "format": "date-time"
+        },
+        "language": {
+          "description": "The default spoken language",
+          "type": "string"
+        },
+        "channelvars": {
+          "description": "Channel variables",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "state",
+        "caller",
+        "connected",
+        "accountcode",
+        "dialplan",
+        "creationtime",
+        "language"
+      ]
+    },
+    "CallerID": {
+      "id": "CallerID",
+      "description": "Caller identification",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "number"
+      ]
+    },
+    "VariableTuple": {
+      "id": "VariableTuple",
+      "description": "A key/value pair that is part of channel variables.",
+      "properties": {
+        "endpoint": {
+          "description": "Channel endpoint.",
+          "type": "string"
+        },
+        "variable": {
+          "description": "The value for the variable (json, see documentation).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "endpoint",
+        "variable"
+      ]
+    },
+    "DialplanCEP": {
+      "id": "DialplanCEP",
+      "description": "Dialplan location (context/extension/priority)",
+      "properties": {
+        "context": {
+          "description": "Context in the dialplan",
+          "type": "string"
+        },
+        "exten": {
+          "description": "Extension in the dialplan",
+          "type": "string"
+        },
+        "priority": {
+          "description": "Priority in the dialplan",
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "required": [
+        "context",
+        "exten",
+        "priority"
+      ]
+    },
+    "Bridge": {
+      "id": "Bridge",
+      "description": "The merging of media from one or more channels.\n\nEveryone on the bridge receives the same audio.",
+      "properties": {
+        "id": {
+          "description": "Unique identifier for this bridge",
+          "type": "string"
+        },
+        "technology": {
+          "description": "Name of the current bridging technology",
+          "type": "string"
+        },
+        "bridge_type": {
+          "description": "Type of bridge technology",
+          "type": "string"
+        },
+        "bridge_class": {
+          "description": "Bridging class",
+          "type": "string"
+        },
+        "creator": {
+          "description": "Entity that created the bridge",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name the creator gave the bridge",
+          "type": "string"
+        },
+        "channels": {
+          "description": "Ids of channels participating in this bridge",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "video_mode": {
+          "description": "The video mode the bridge is using. One of \u0027none\u0027, \u0027talker\u0027, or \u0027single\u0027.",
+          "type": "string"
+        },
+        "video_source_id": {
+          "description": "The ID of the channel that is the source of video in this bridge, if one exists.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "technology",
+        "bridge_type",
+        "bridge_class",
+        "creator",
+        "name",
+        "channels"
+      ]
+    },
+    "StoredRecording": {
+      "id": "StoredRecording",
+      "description": "A past recording that may be played back.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "format"
+      ]
+    },
+    "LiveRecording": {
+      "id": "LiveRecording",
+      "description": "A recording that is in progress",
+      "properties": {
+        "name": {
+          "description": "Base name for the recording",
+          "type": "string"
+        },
+        "format": {
+          "description": "Recording format (wav, gsm, etc.)",
+          "type": "string"
+        },
+        "target_uri": {
+          "description": "URI for the channel or bridge being recorded",
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "duration": {
+          "description": "Duration in seconds of the recording",
+          "type": "integer",
+          "format": "int32"
+        },
+        "talking_duration": {
+          "description": "Duration of talking, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "silence_duration": {
+          "description": "Duration of silence, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "cause": {
+          "description": "Cause for recording failure if failed",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "format",
+        "target_uri",
+        "state"
+      ]
+    },
+    "FormatLangPair": {
+      "id": "FormatLangPair",
+      "description": "Identifies the format and language of a sound file",
+      "properties": {
+        "language": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "language",
+        "format"
+      ]
+    },
+    "Sound": {
+      "id": "Sound",
+      "description": "A media file that may be played back.",
+      "properties": {
+        "id": {
+          "description": "Sound\u0027s identifier.",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text description of the sound, usually the words spoken.",
+          "type": "string"
+        },
+        "formats": {
+          "description": "The formats and languages in which this sound is available.",
+          "type": "array",
+          "items": {
+            "$ref": "FormatLangPair"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "formats"
+      ]
+    },
+    "Playback": {
+      "id": "Playback",
+      "description": "Object representing the playback of media to a channel",
+      "properties": {
+        "id": {
+          "description": "ID for this playback operation",
+          "type": "string"
+        },
+        "media_uri": {
+          "description": "The URI for the media currently being played back.",
+          "type": "string"
+        },
+        "next_media_uri": {
+          "description": "If a list of URIs is being played, the next media URI to be played back.",
+          "type": "string"
+        },
+        "target_uri": {
+          "description": "URI for the channel or bridge to play the media on",
+          "type": "string"
+        },
+        "language": {
+          "description": "For media types that support multiple languages, the language requested for playback.",
+          "type": "string"
+        },
+        "state": {
+          "description": "Current state of the playback operation.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "media_uri",
+        "target_uri",
+        "state"
+      ]
+    },
+    "DeviceState": {
+      "id": "DeviceState",
+      "description": "Represents the state of a device.",
+      "properties": {
+        "name": {
+          "description": "Name of the device.",
+          "type": "string"
+        },
+        "state": {
+          "description": "Device\u0027s state",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "state"
+      ]
+    },
+    "Mailbox": {
+      "id": "Mailbox",
+      "description": "Represents the state of a mailbox.",
+      "properties": {
+        "name": {
+          "description": "Name of the mailbox.",
+          "type": "string"
+        },
+        "old_messages": {
+          "description": "Count of old messages in the mailbox.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "new_messages": {
+          "description": "Count of new messages in the mailbox.",
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "name",
+        "old_messages",
+        "new_messages"
+      ]
+    },
+    "RecordingFinished": {
+      "id": "RecordingFinished",
+      "description": "Event showing the completion of a recording operation.",
+      "properties": {
+        "recording": {
+          "description": "Recording control object",
+          "$ref": "LiveRecording"
+        }
+      },
+      "required": [
+        "recording"
+      ]
+    },
+    "ApplicationReplaced": {
+      "id": "ApplicationReplaced",
+      "description": "Notification that another WebSocket has taken over for an application.\n\nAn application may only be subscribed to by a single WebSocket at a time. If multiple WebSockets attempt to subscribe to the same application, the newer WebSocket wins, and the older one receives this event.",
+      "properties": {}
+    },
+    "ChannelConnectedLine": {
+      "id": "ChannelConnectedLine",
+      "description": "Channel changed Connected Line.",
+      "properties": {
+        "channel": {
+          "description": "The channel whose connected line has changed.",
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "channel"
+      ]
+    },
+    "BridgeVideoSourceChanged": {
+      "id": "BridgeVideoSourceChanged",
+      "description": "Notification that the source of video in a bridge has changed.",
+      "properties": {
+        "bridge": {
+          "$ref": "Bridge"
+        },
+        "old_video_source_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "bridge"
+      ]
+    },
+    "StasisEnd": {
+      "id": "StasisEnd",
+      "description": "Notification that a channel has left a Stasis application.",
+      "properties": {
+        "channel": {
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "channel"
+      ]
+    },
+    "ChannelVarset": {
+      "id": "ChannelVarset",
+      "description": "Channel variable changed.",
+      "properties": {
+        "variable": {
+          "description": "The variable that changed.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The new value of the variable.",
+          "type": "string"
+        },
+        "channel": {
+          "description": "The channel on which the variable was set.\n\nIf missing, the variable is a global variable.",
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "variable",
+        "value"
+      ]
+    },
+    "ChannelTalkingFinished": {
+      "id": "ChannelTalkingFinished",
+      "description": "Talking is no longer detected on the channel.",
+      "properties": {
+        "channel": {
+          "description": "The channel on which talking completed.",
+          "$ref": "Channel"
+        },
+        "duration": {
+          "description": "The length of time, in milliseconds, that talking was detected on the channel",
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "channel",
+        "duration"
+      ]
+    },
+    "ContactInfo": {
+      "id": "ContactInfo",
+      "description": "Detailed information about a contact on an endpoint.",
+      "properties": {
+        "uri": {
+          "description": "The location of the contact.",
+          "type": "string"
+        },
+        "contact_status": {
+          "description": "The current status of the contact.",
+          "type": "string"
+        },
+        "aor": {
+          "description": "The Address of Record this contact belongs to.",
+          "type": "string"
+        },
+        "roundtrip_usec": {
+          "description": "Current round trip time, in microseconds, for the contact.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "contact_status",
+        "aor"
+      ]
+    },
+    "ContactStatusChange": {
+      "id": "ContactStatusChange",
+      "description": "The state of a contact on an endpoint has changed.",
+      "properties": {
+        "endpoint": {
+          "$ref": "Endpoint"
+        },
+        "contact_info": {
+          "$ref": "ContactInfo"
+        }
+      },
+      "required": [
+        "endpoint",
+        "contact_info"
+      ]
+    },
+    "EndpointStateChange": {
+      "id": "EndpointStateChange",
+      "description": "Endpoint state changed.",
+      "properties": {
+        "endpoint": {
+          "$ref": "Endpoint"
+        }
+      },
+      "required": [
+        "endpoint"
+      ]
+    },
+    "PlaybackContinuing": {
+      "id": "PlaybackContinuing",
+      "description": "Event showing the continuation of a media playback operation from one media URI to the next in the list.",
+      "properties": {
+        "playback": {
+          "description": "Playback control object",
+          "$ref": "Playback"
+        }
+      },
+      "required": [
+        "playback"
+      ]
+    },
+    "ChannelHold": {
+      "id": "ChannelHold",
+      "description": "A channel initiated a media hold.",
+      "properties": {
+        "channel": {
+          "description": "The channel that initiated the hold event.",
+          "$ref": "Channel"
+        },
+        "musicclass": {
+          "description": "The music on hold class that the initiator requested.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel"
+      ]
+    },
+    "Dial": {
+      "id": "Dial",
+      "description": "Dialing state has changed.",
+      "properties": {
+        "caller": {
+          "description": "The calling channel.",
+          "$ref": "Channel"
+        },
+        "peer": {
+          "description": "The dialed channel.",
+          "$ref": "Channel"
+        },
+        "forward": {
+          "description": "Forwarding target requested by the original dialed channel.",
+          "type": "string"
+        },
+        "forwarded": {
+          "description": "Channel that the caller has been forwarded to.",
+          "$ref": "Channel"
+        },
+        "dialstring": {
+          "description": "The dial string for calling the peer channel.",
+          "type": "string"
+        },
+        "dialstatus": {
+          "description": "Current status of the dialing attempt to the peer.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "peer",
+        "dialstatus"
+      ]
+    },
+    "ChannelDestroyed": {
+      "id": "ChannelDestroyed",
+      "description": "Notification that a channel has been destroyed.",
+      "properties": {
+        "cause": {
+          "description": "Integer representation of the cause of the hangup",
+          "type": "integer",
+          "format": "int32"
+        },
+        "cause_txt": {
+          "description": "Text representation of the cause of the hangup",
+          "type": "string"
+        },
+        "channel": {
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "cause",
+        "cause_txt",
+        "channel"
+      ]
+    },
+    "BridgeDestroyed": {
+      "id": "BridgeDestroyed",
+      "description": "Notification that a bridge has been destroyed.",
+      "properties": {
+        "bridge": {
+          "$ref": "Bridge"
+        }
+      },
+      "required": [
+        "bridge"
+      ]
+    },
+    "ChannelUnhold": {
+      "id": "ChannelUnhold",
+      "description": "A channel initiated a media unhold.",
+      "properties": {
+        "channel": {
+          "description": "The channel that initiated the unhold event.",
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "channel"
+      ]
+    },
+    "BridgeBlindTransfer": {
+      "id": "BridgeBlindTransfer",
+      "description": "Notification that a blind transfer has occurred.",
+      "properties": {
+        "channel": {
+          "description": "The channel performing the blind transfer",
+          "$ref": "Channel"
+        },
+        "replace_channel": {
+          "description": "The channel that is replacing transferer when the transferee(s) can not be transferred directly",
+          "$ref": "Channel"
+        },
+        "transferee": {
+          "description": "The channel that is being transferred",
+          "$ref": "Channel"
+        },
+        "exten": {
+          "description": "The extension transferred to",
+          "type": "string"
+        },
+        "context": {
+          "description": "The context transferred to",
+          "type": "string"
+        },
+        "result": {
+          "description": "The result of the transfer attempt",
+          "type": "string"
+        },
+        "is_external": {
+          "description": "Whether the transfer was externally initiated or not",
+          "type": "boolean"
+        },
+        "bridge": {
+          "description": "The bridge being transferred",
+          "$ref": "Bridge"
+        }
+      },
+      "required": [
+        "channel",
+        "exten",
+        "context",
+        "result",
+        "is_external"
+      ]
+    },
+    "ChannelTalkingStarted": {
+      "id": "ChannelTalkingStarted",
+      "description": "Talking was detected on the channel.",
+      "properties": {
+        "channel": {
+          "description": "The channel on which talking started.",
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "channel"
+      ]
+    },
+    "ChannelStateChange": {
+      "id": "ChannelStateChange",
+      "description": "Notification of a channel\u0027s state change.",
+      "properties": {
+        "channel": {
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "channel"
+      ]
+    },
+    "ChannelDialplan": {
+      "id": "ChannelDialplan",
+      "description": "Channel changed location in the dialplan.",
+      "properties": {
+        "channel": {
+          "description": "The channel that changed dialplan location.",
+          "$ref": "Channel"
+        },
+        "dialplan_app": {
+          "description": "The application about to be executed.",
+          "type": "string"
+        },
+        "dialplan_app_data": {
+          "description": "The data to be passed to the application.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel",
+        "dialplan_app",
+        "dialplan_app_data"
+      ]
+    },
+    "PlaybackFinished": {
+      "id": "PlaybackFinished",
+      "description": "Event showing the completion of a media playback operation.",
+      "properties": {
+        "playback": {
+          "description": "Playback control object",
+          "$ref": "Playback"
+        }
+      },
+      "required": [
+        "playback"
+      ]
+    },
+    "ChannelUserevent": {
+      "id": "ChannelUserevent",
+      "description": "User-generated event with additional user-defined fields in the object.",
+      "properties": {
+        "eventname": {
+          "description": "The name of the user event.",
+          "type": "string"
+        },
+        "channel": {
+          "description": "A channel that is signaled with the user event.",
+          "$ref": "Channel"
+        },
+        "bridge": {
+          "description": "A bridge that is signaled with the user event.",
+          "$ref": "Bridge"
+        },
+        "endpoint": {
+          "description": "A endpoint that is signaled with the user event.",
+          "$ref": "Endpoint"
+        },
+        "userevent": {
+          "description": "Custom Userevent data",
+          "type": "string"
+        }
+      },
+      "required": [
+        "eventname",
+        "userevent"
+      ]
+    },
+    "BridgeAttendedTransfer": {
+      "id": "BridgeAttendedTransfer",
+      "description": "Notification that an attended transfer has occurred.",
+      "properties": {
+        "transferer_first_leg": {
+          "description": "First leg of the transferer",
+          "$ref": "Channel"
+        },
+        "transferer_second_leg": {
+          "description": "Second leg of the transferer",
+          "$ref": "Channel"
+        },
+        "replace_channel": {
+          "description": "The channel that is replacing transferer_first_leg in the swap",
+          "$ref": "Channel"
+        },
+        "transferee": {
+          "description": "The channel that is being transferred",
+          "$ref": "Channel"
+        },
+        "transfer_target": {
+          "description": "The channel that is being transferred to",
+          "$ref": "Channel"
+        },
+        "result": {
+          "description": "The result of the transfer attempt",
+          "type": "string"
+        },
+        "is_external": {
+          "description": "Whether the transfer was externally initiated or not",
+          "type": "boolean"
+        },
+        "transferer_first_leg_bridge": {
+          "description": "Bridge the transferer first leg is in",
+          "$ref": "Bridge"
+        },
+        "transferer_second_leg_bridge": {
+          "description": "Bridge the transferer second leg is in",
+          "$ref": "Bridge"
+        },
+        "destination_type": {
+          "description": "How the transfer was accomplished",
+          "type": "string"
+        },
+        "destination_bridge": {
+          "description": "Bridge that survived the merge result",
+          "type": "string"
+        },
+        "destination_application": {
+          "description": "Application that has been transferred into",
+          "type": "string"
+        },
+        "destination_link_first_leg": {
+          "description": "First leg of a link transfer result",
+          "$ref": "Channel"
+        },
+        "destination_link_second_leg": {
+          "description": "Second leg of a link transfer result",
+          "$ref": "Channel"
+        },
+        "destination_threeway_channel": {
+          "description": "Transferer channel that survived the threeway result",
+          "$ref": "Channel"
+        },
+        "destination_threeway_bridge": {
+          "description": "Bridge that survived the threeway result",
+          "$ref": "Bridge"
+        }
+      },
+      "required": [
+        "transferer_first_leg",
+        "transferer_second_leg",
+        "result",
+        "is_external",
+        "destination_type"
+      ]
+    },
+    "StasisStart": {
+      "id": "StasisStart",
+      "description": "Notification that a channel has entered a Stasis application.",
+      "properties": {
+        "args": {
+          "description": "Arguments to the application",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "channel": {
+          "$ref": "Channel"
+        },
+        "replace_channel": {
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "args",
+        "channel"
+      ]
+    },
+    "Peer": {
+      "id": "Peer",
+      "description": "Detailed information about a remote peer that communicates with Asterisk.",
+      "properties": {
+        "peer_status": {
+          "description": "The current state of the peer. Note that the values of the status are dependent on the underlying peer technology.",
+          "type": "string"
+        },
+        "cause": {
+          "description": "An optional reason associated with the change in peer_status.",
+          "type": "string"
+        },
+        "address": {
+          "description": "The IP address of the peer.",
+          "type": "string"
+        },
+        "port": {
+          "description": "The port of the peer.",
+          "type": "string"
+        },
+        "time": {
+          "description": "The last known time the peer was contacted.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "peer_status"
+      ]
+    },
+    "ChannelCallerId": {
+      "id": "ChannelCallerId",
+      "description": "Channel changed Caller ID.",
+      "properties": {
+        "caller_presentation": {
+          "description": "The integer representation of the Caller Presentation value.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "caller_presentation_txt": {
+          "description": "The text representation of the Caller Presentation value.",
+          "type": "string"
+        },
+        "channel": {
+          "description": "The channel that changed Caller ID.",
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "caller_presentation",
+        "caller_presentation_txt",
+        "channel"
+      ]
+    },
+    "CustomVariable": {
+      "id": "CustomVariable",
+      "description": "Custom variable for user event.",
+      "properties": {
+        "key": {
+          "description": "Key of custom key/value pairs to add to the user event.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key"
+      ]
+    },
+    "TextMessageReceived": {
+      "id": "TextMessageReceived",
+      "description": "A text message was received from an endpoint.",
+      "properties": {
+        "message": {
+          "$ref": "TextMessage"
+        },
+        "endpoint": {
+          "$ref": "Endpoint"
+        }
+      },
+      "required": [
+        "message"
+      ]
+    },
+    "ChannelHangupRequest": {
+      "id": "ChannelHangupRequest",
+      "description": "A hangup was requested on the channel.",
+      "properties": {
+        "cause": {
+          "description": "Integer representation of the cause of the hangup.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "soft": {
+          "description": "Whether the hangup request was a soft hangup request.",
+          "type": "boolean"
+        },
+        "channel": {
+          "description": "The channel on which the hangup was requested.",
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "channel"
+      ]
+    },
+    "BridgeMerged": {
+      "id": "BridgeMerged",
+      "description": "Notification that one bridge has merged into another.",
+      "properties": {
+        "bridge": {
+          "$ref": "Bridge"
+        },
+        "bridge_from": {
+          "$ref": "Bridge"
+        }
+      },
+      "required": [
+        "bridge",
+        "bridge_from"
+      ]
+    },
+    "ChannelCreated": {
+      "id": "ChannelCreated",
+      "description": "Notification that a channel has been created.",
+      "properties": {
+        "channel": {
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "channel"
+      ]
+    },
+    "Event": {
+      "id": "Event",
+      "description": "Base type for asynchronous events from Asterisk.",
+      "subTypes": [
+        "DeviceStateChanged",
+        "PlaybackStarted",
+        "PlaybackContinuing",
+        "PlaybackFinished",
+        "RecordingStarted",
+        "RecordingFinished",
+        "RecordingFailed",
+        "ApplicationReplaced",
+        "BridgeCreated",
+        "BridgeDestroyed",
+        "BridgeMerged",
+        "BridgeBlindTransfer",
+        "BridgeAttendedTransfer",
+        "BridgeVideoSourceChanged",
+        "ChannelCreated",
+        "ChannelDestroyed",
+        "ChannelEnteredBridge",
+        "ChannelLeftBridge",
+        "ChannelStateChange",
+        "ChannelDtmfReceived",
+        "ChannelDialplan",
+        "ChannelCallerId",
+        "ChannelUserevent",
+        "ChannelHangupRequest",
+        "ChannelVarset",
+        "ChannelTalkingStarted",
+        "ChannelTalkingFinished",
+        "ChannelHold",
+        "ChannelUnhold",
+        "ContactStatusChange",
+        "EndpointStateChange",
+        "Dial",
+        "StasisEnd",
+        "StasisStart",
+        "TextMessageReceived",
+        "ChannelConnectedLine",
+        "PeerStatusChange"
+      ],
+      "properties": {
+        "application": {
+          "description": "Name of the application receiving the event.",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "Time at which this event was created.",
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "application"
+      ]
+    },
+    "RecordingFailed": {
+      "id": "RecordingFailed",
+      "description": "Event showing failure of a recording operation.",
+      "properties": {
+        "recording": {
+          "description": "Recording control object",
+          "$ref": "LiveRecording"
+        }
+      },
+      "required": [
+        "recording"
+      ]
+    },
+    "Message": {
+      "id": "Message",
+      "description": "Base type for errors and events",
+      "subTypes": [
+        "MissingParams",
+        "Event"
+      ],
+      "properties": {
+        "type": {
+          "description": "Indicates the type of this message.",
+          "type": "string"
+        },
+        "asterisk_id": {
+          "description": "The unique ID for the Asterisk instance that raised this event.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "ChannelDtmfReceived": {
+      "id": "ChannelDtmfReceived",
+      "description": "DTMF received on a channel.\n\nThis event is sent when the DTMF ends. There is no notification about the start of DTMF",
+      "properties": {
+        "digit": {
+          "description": "DTMF digit received (0-9, A-E, # or *)",
+          "type": "string"
+        },
+        "duration_ms": {
+          "description": "Number of milliseconds DTMF was received",
+          "type": "integer",
+          "format": "int32"
+        },
+        "channel": {
+          "description": "The channel on which DTMF was received",
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "digit",
+        "duration_ms",
+        "channel"
+      ]
+    },
+    "RecordingStarted": {
+      "id": "RecordingStarted",
+      "description": "Event showing the start of a recording operation.",
+      "properties": {
+        "recording": {
+          "description": "Recording control object",
+          "$ref": "LiveRecording"
+        }
+      },
+      "required": [
+        "recording"
+      ]
+    },
+    "PlaybackStarted": {
+      "id": "PlaybackStarted",
+      "description": "Event showing the start of a media playback operation.",
+      "properties": {
+        "playback": {
+          "description": "Playback control object",
+          "$ref": "Playback"
+        }
+      },
+      "required": [
+        "playback"
+      ]
+    },
+    "ChannelLeftBridge": {
+      "id": "ChannelLeftBridge",
+      "description": "Notification that a channel has left a bridge.",
+      "properties": {
+        "bridge": {
+          "$ref": "Bridge"
+        },
+        "channel": {
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "bridge",
+        "channel"
+      ]
+    },
+    "MissingParams": {
+      "id": "MissingParams",
+      "description": "Error event sent when required params are missing.",
+      "properties": {
+        "params": {
+          "description": "A list of the missing parameters",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "params"
+      ]
+    },
+    "ChannelEnteredBridge": {
+      "id": "ChannelEnteredBridge",
+      "description": "Notification that a channel has entered a bridge.",
+      "properties": {
+        "bridge": {
+          "$ref": "Bridge"
+        },
+        "channel": {
+          "$ref": "Channel"
+        }
+      },
+      "required": [
+        "bridge"
+      ]
+    },
+    "DeviceStateChanged": {
+      "id": "DeviceStateChanged",
+      "description": "Notification that a device state has changed.",
+      "properties": {
+        "device_state": {
+          "description": "Device state object",
+          "$ref": "DeviceState"
+        }
+      },
+      "required": [
+        "device_state"
+      ]
+    },
+    "BridgeCreated": {
+      "id": "BridgeCreated",
+      "description": "Notification that a bridge has been created.",
+      "properties": {
+        "bridge": {
+          "$ref": "Bridge"
+        }
+      },
+      "required": [
+        "bridge"
+      ]
+    },
+    "PeerStatusChange": {
+      "id": "PeerStatusChange",
+      "description": "The state of a peer associated with an endpoint has changed.",
+      "properties": {
+        "endpoint": {
+          "$ref": "Endpoint"
+        },
+        "peer": {
+          "$ref": "Peer"
+        }
+      },
+      "required": [
+        "endpoint",
+        "peer"
+      ]
+    },
+    "Application": {
+      "id": "Application",
+      "description": "Details of a Stasis application",
+      "properties": {
+        "name": {
+          "description": "Name of this application",
+          "type": "string"
+        },
+        "channel_ids": {
+          "description": "Id\u0027s for channels subscribed to.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bridge_ids": {
+          "description": "Id\u0027s for bridges subscribed to.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "endpoint_ids": {
+          "description": "{tech}/{resource} for endpoints subscribed to.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "device_names": {
+          "description": "Names of the devices subscribed to.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "channel_ids",
+        "bridge_ids",
+        "endpoint_ids",
+        "device_names"
+      ]
+    }
+  }
+}
