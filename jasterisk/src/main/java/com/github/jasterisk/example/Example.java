@@ -3,6 +3,7 @@ package com.github.jasterisk.example;
 import com.github.jasterisk.api.DefaultApi;
 import com.github.jasterisk.client.Jasterisk;
 import com.github.jasterisk.model.Bridge;
+import com.github.jasterisk.model.BridgeCreated;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.WebSocket;
@@ -10,7 +11,10 @@ import okhttp3.WebSocketListener;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 public class Example {
 
@@ -38,15 +42,27 @@ public class Example {
 
     public static class MyWebSocketListener extends WebSocketListener {
 
+        private final Map<Class<?>, Consumer<Object>> handlers = new HashMap<>();
+
+        @SuppressWarnings("unchecked")
+        private <T> void setHandler(Class<T> klass, Consumer<T> consumer) {
+            handlers.put(klass, (Consumer<Object>) consumer);
+        }
+
+        MyWebSocketListener() {
+            setHandler(BridgeCreated.class, this::handleBridgeCreated);
+            // similar for other events
+        }
+
+        private void handleBridgeCreated(BridgeCreated bc) {
+            System.out.println("received event for new bridge " + bc.getBridge().getId());
+        }
+
         @Override
         public void onMessage(WebSocket webSocket, String json) {
             Object obj = Jasterisk.jsonToObject(json);
-            /**
-             * As Java is a shit language and does not have pattern matching, you'll either have to instanceof
-             * the shit out of the Object instances or switch case on the name of the class to find out what
-             * events you're getting.
-             */
-            System.out.println(obj.getClass().getName());
+            Consumer<Object> consumer = handlers.get(obj.getClass());
+            if(consumer != null) consumer.accept(obj);
         }
     }
 }
