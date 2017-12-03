@@ -37,6 +37,6 @@ link:jasterisk/src/main/java/com/github/jasterisk/example/Example.java[Here]'s a
 The code should output something similar to
 [source,txt]
 ----
-new Bridge id is 38c0ebbe-afa7-48f0-bbcd-41506393f99a
-com.github.jasterisk.model.BridgeCreated
+new Bridge id is b272b33d-5189-4260-93f8-54915618d515
+received event for new bridge b272b33d-5189-4260-93f8-54915618d515
 ----
