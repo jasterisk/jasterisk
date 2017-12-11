@@ -30,7 +30,7 @@ import java.util.List;
  * Notification that a channel has entered a Stasis application.
  */
 @ApiModel(description = "Notification that a channel has entered a Stasis application.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-02T16:24:17.590+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
 public class StasisStart {
   @SerializedName("args")
   private List<String> args = new ArrayList<>();

@@ -27,7 +27,7 @@ import java.io.IOException;
  * Identifies the format and language of a sound file
  */
 @ApiModel(description = "Identifies the format and language of a sound file")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-02T16:24:17.590+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
 public class FormatLangPair {
   @SerializedName("language")
   private String language = null;

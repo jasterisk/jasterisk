@@ -151,6 +151,7 @@
                         <link>http://square.github.io/retrofit/2.x/retrofit/</link>
                         <link>https://oltu.apache.org/apidocs/oauth2/reference/</link>
                         <link>https://square.github.io/okhttp/3.x/okhttp/</link>
+                        <link>https://google.github.io/gson/apidocs/</link>
                     </links>
                     <excludePackageNames>com.github.jasterisk.example</excludePackageNames>
                 </configuration>

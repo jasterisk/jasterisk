@@ -28,7 +28,7 @@ import java.io.IOException;
  * Channel changed Connected Line.
  */
 @ApiModel(description = "Channel changed Connected Line.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-02T16:24:17.590+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
 public class ChannelConnectedLine {
   @SerializedName("channel")
   private Channel channel = null;

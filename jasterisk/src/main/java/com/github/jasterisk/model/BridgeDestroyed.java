@@ -28,7 +28,7 @@ import java.io.IOException;
  * Notification that a bridge has been destroyed.
  */
 @ApiModel(description = "Notification that a bridge has been destroyed.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-02T16:24:17.590+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
 public class BridgeDestroyed {
   @SerializedName("bridge")
   private Bridge bridge = null;

@@ -3,6 +3,7 @@
 image::jasterisk.png[align="center"]
 
 Java bindings for https://www.asterisk.org/[Asterisk] https://wiki.asterisk.org/wiki/display/AST/Asterisk+15+ARI[REST Interface] (ARI). Javadoc https://jasterisk.github.io/jasterisk/apidocs/[here].
+Currently only Asterisk 15 is supported.
 
 == Asterisk REST API
 

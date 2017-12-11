@@ -26,7 +26,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
  */
 public class AsteriskOffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
 
-    private final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+    static final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
             .append(ISO_LOCAL_DATE_TIME)
             .appendOffset("+HHmm", "Z")
