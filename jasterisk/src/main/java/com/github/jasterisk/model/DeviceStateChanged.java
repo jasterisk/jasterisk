@@ -28,7 +28,7 @@ import java.io.IOException;
  * Notification that a device state has changed.
  */
 @ApiModel(description = "Notification that a device state has changed.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class DeviceStateChanged {
   @SerializedName("device_state")
   private DeviceState deviceState = null;

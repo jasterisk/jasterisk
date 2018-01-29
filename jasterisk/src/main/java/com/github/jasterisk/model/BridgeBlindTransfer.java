@@ -29,7 +29,7 @@ import java.io.IOException;
  * Notification that a blind transfer has occurred.
  */
 @ApiModel(description = "Notification that a blind transfer has occurred.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class BridgeBlindTransfer {
   @SerializedName("channel")
   private Channel channel = null;

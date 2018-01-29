@@ -28,7 +28,7 @@ import java.io.IOException;
  * Talking was detected on the channel.
  */
 @ApiModel(description = "Talking was detected on the channel.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class ChannelTalkingStarted {
   @SerializedName("channel")
   private Channel channel = null;

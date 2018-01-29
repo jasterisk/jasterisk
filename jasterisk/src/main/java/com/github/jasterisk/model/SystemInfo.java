@@ -27,7 +27,7 @@ import java.io.IOException;
  * Info about Asterisk
  */
 @ApiModel(description = "Info about Asterisk")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class SystemInfo {
   @SerializedName("version")
   private String version = null;

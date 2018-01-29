@@ -29,7 +29,7 @@ import java.io.IOException;
  * The state of a peer associated with an endpoint has changed.
  */
 @ApiModel(description = "The state of a peer associated with an endpoint has changed.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class PeerStatusChange {
   @SerializedName("endpoint")
   private Endpoint endpoint = null;

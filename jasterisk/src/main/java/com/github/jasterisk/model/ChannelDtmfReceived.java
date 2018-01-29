@@ -28,7 +28,7 @@ import java.io.IOException;
  * DTMF received on a channel.  This event is sent when the DTMF ends. There is no notification about the start of DTMF
  */
 @ApiModel(description = "DTMF received on a channel.  This event is sent when the DTMF ends. There is no notification about the start of DTMF")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class ChannelDtmfReceived {
   @SerializedName("digit")
   private String digit = null;

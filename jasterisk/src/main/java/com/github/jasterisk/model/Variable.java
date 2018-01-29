@@ -27,7 +27,7 @@ import java.io.IOException;
  * The value of a channel variable
  */
 @ApiModel(description = "The value of a channel variable")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class Variable {
   @SerializedName("value")
   private String value = null;

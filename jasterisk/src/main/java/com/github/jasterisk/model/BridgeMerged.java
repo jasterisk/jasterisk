@@ -28,7 +28,7 @@ import java.io.IOException;
  * Notification that one bridge has merged into another.
  */
 @ApiModel(description = "Notification that one bridge has merged into another.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class BridgeMerged {
   @SerializedName("bridge")
   private Bridge bridge = null;

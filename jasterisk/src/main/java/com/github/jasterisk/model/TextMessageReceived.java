@@ -29,7 +29,7 @@ import java.io.IOException;
  * A text message was received from an endpoint.
  */
 @ApiModel(description = "A text message was received from an endpoint.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class TextMessageReceived {
   @SerializedName("message")
   private TextMessage message = null;

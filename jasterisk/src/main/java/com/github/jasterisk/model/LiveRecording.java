@@ -27,7 +27,7 @@ import java.io.IOException;
  * A recording that is in progress
  */
 @ApiModel(description = "A recording that is in progress")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class LiveRecording {
   @SerializedName("name")
   private String name = null;

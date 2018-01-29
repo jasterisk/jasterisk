@@ -28,7 +28,7 @@ import java.io.IOException;
  * Notification that the source of video in a bridge has changed.
  */
 @ApiModel(description = "Notification that the source of video in a bridge has changed.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class BridgeVideoSourceChanged {
   @SerializedName("bridge")
   private Bridge bridge = null;

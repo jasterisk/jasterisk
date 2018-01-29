@@ -27,7 +27,7 @@ import java.io.IOException;
  * Object representing the playback of media to a channel
  */
 @ApiModel(description = "Object representing the playback of media to a channel")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class Playback {
   @SerializedName("id")
   private String id = null;

@@ -27,7 +27,7 @@ import java.io.IOException;
  * A past recording that may be played back.
  */
 @ApiModel(description = "A past recording that may be played back.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class StoredRecording {
   @SerializedName("name")
   private String name = null;

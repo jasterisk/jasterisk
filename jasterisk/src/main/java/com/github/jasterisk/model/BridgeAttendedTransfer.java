@@ -29,7 +29,7 @@ import java.io.IOException;
  * Notification that an attended transfer has occurred.
  */
 @ApiModel(description = "Notification that an attended transfer has occurred.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class BridgeAttendedTransfer {
   @SerializedName("transferer_first_leg")
   private Channel transfererFirstLeg = null;

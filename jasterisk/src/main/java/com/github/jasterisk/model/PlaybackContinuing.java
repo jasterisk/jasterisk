@@ -28,7 +28,7 @@ import java.io.IOException;
  * Event showing the continuation of a media playback operation from one media URI to the next in the list.
  */
 @ApiModel(description = "Event showing the continuation of a media playback operation from one media URI to the next in the list.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class PlaybackContinuing {
   @SerializedName("playback")
   private Playback playback = null;

@@ -68,8 +68,6 @@ Method | HTTP request | Description
 [**redirectChannel**](DefaultApi.md#redirectChannel) | **POST** channels/{channelId}/redirect | Redirect the channel to a different location.
 [**reloadAsteriskModule**](DefaultApi.md#reloadAsteriskModule) | **PUT** asterisk/modules/{moduleName} | Reload an Asterisk module.
 [**removeChannelFromBridge**](DefaultApi.md#removeChannelFromBridge) | **POST** bridges/{bridgeId}/removeChannel | Remove a channel from a bridge.
-[**ringChannel**](DefaultApi.md#ringChannel) | **POST** channels/{channelId}/ring | Indicate ringing to a channel.
-[**ringChannelStop**](DefaultApi.md#ringChannelStop) | **DELETE** channels/{channelId}/ring | Stop ringing indication on a channel if locally generated.
 [**rotateAsteriskLogChannel**](DefaultApi.md#rotateAsteriskLogChannel) | **PUT** asterisk/logging/{logChannelName}/rotate | Rotates a log channel.
 [**sendChannelDTMF**](DefaultApi.md#sendChannelDTMF) | **POST** channels/{channelId}/dtmf | Send provided DTMF to a given channel.
 [**sendEndpointMessage**](DefaultApi.md#sendEndpointMessage) | **PUT** endpoints/sendMessage | Send a message to some technology URI or endpoint.
@@ -81,12 +79,14 @@ Method | HTTP request | Description
 [**snoopChannelWithId**](DefaultApi.md#snoopChannelWithId) | **POST** channels/{channelId}/snoop/{snoopId} | Start snooping.
 [**startBridgeMoh**](DefaultApi.md#startBridgeMoh) | **POST** bridges/{bridgeId}/moh | Play music on hold to a bridge or change the MOH class that is playing.
 [**startChannelMoh**](DefaultApi.md#startChannelMoh) | **POST** channels/{channelId}/moh | Play music on hold to a channel.
+[**startChannelRing**](DefaultApi.md#startChannelRing) | **POST** channels/{channelId}/ring | Indicate ringing to a channel.
 [**startChannelSilence**](DefaultApi.md#startChannelSilence) | **POST** channels/{channelId}/silence | Play silence to a channel.
 [**stopBridgeMoh**](DefaultApi.md#stopBridgeMoh) | **DELETE** bridges/{bridgeId}/moh | Stop playing music on hold to a bridge.
+[**stopChannelMoh**](DefaultApi.md#stopChannelMoh) | **DELETE** channels/{channelId}/moh | Stop playing music on hold to a channel.
+[**stopChannelRing**](DefaultApi.md#stopChannelRing) | **DELETE** channels/{channelId}/ring | Stop ringing indication on a channel if locally generated.
+[**stopChannelSilence**](DefaultApi.md#stopChannelSilence) | **DELETE** channels/{channelId}/silence | Stop playing silence to a channel.
 [**stopLiveRecording**](DefaultApi.md#stopLiveRecording) | **POST** recordings/live/{recordingName}/stop | Stop a live recording and store it.
-[**stopMoh**](DefaultApi.md#stopMoh) | **DELETE** channels/{channelId}/moh | Stop playing music on hold to a channel.
 [**stopPlayback**](DefaultApi.md#stopPlayback) | **DELETE** playbacks/{playbackId} | Stop a playback.
-[**stopSilence**](DefaultApi.md#stopSilence) | **DELETE** channels/{channelId}/silence | Stop playing silence to a channel.
 [**subscribeToApplication**](DefaultApi.md#subscribeToApplication) | **POST** applications/{applicationName}/subscription | Subscribe an application to a event source.
 [**unhold**](DefaultApi.md#unhold) | **DELETE** channels/{channelId}/hold | Remove a channel from hold.
 [**unloadAsteriskModule**](DefaultApi.md#unloadAsteriskModule) | **DELETE** asterisk/modules/{moduleName} | Unload an Asterisk module.
@@ -3033,92 +3033,6 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="ringChannel"></a>
-# **ringChannel**
-> Void ringChannel(channelId)
-
-Indicate ringing to a channel.
-
-### Example
-```java
-// Import classes:
-//import com.github.jasterisk.invoker.ApiException;
-//import com.github.jasterisk.api.DefaultApi;
-
-
-DefaultApi apiInstance = new DefaultApi();
-String channelId = "channelId_example"; // String | Channel's id
-try {
-    Void result = apiInstance.ringChannel(channelId);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DefaultApi#ringChannel");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channelId** | **String**| Channel&#39;s id |
-
-### Return type
-
-[**Void**](.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-<a name="ringChannelStop"></a>
-# **ringChannelStop**
-> Void ringChannelStop(channelId)
-
-Stop ringing indication on a channel if locally generated.
-
-### Example
-```java
-// Import classes:
-//import com.github.jasterisk.invoker.ApiException;
-//import com.github.jasterisk.api.DefaultApi;
-
-
-DefaultApi apiInstance = new DefaultApi();
-String channelId = "channelId_example"; // String | Channel's id
-try {
-    Void result = apiInstance.ringChannelStop(channelId);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DefaultApi#ringChannelStop");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channelId** | **String**| Channel&#39;s id |
-
-### Return type
-
-[**Void**](.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
 <a name="rotateAsteriskLogChannel"></a>
 # **rotateAsteriskLogChannel**
 > Void rotateAsteriskLogChannel(logChannelName)
@@ -3654,6 +3568,49 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+<a name="startChannelRing"></a>
+# **startChannelRing**
+> Void startChannelRing(channelId)
+
+Indicate ringing to a channel.
+
+### Example
+```java
+// Import classes:
+//import com.github.jasterisk.invoker.ApiException;
+//import com.github.jasterisk.api.DefaultApi;
+
+
+DefaultApi apiInstance = new DefaultApi();
+String channelId = "channelId_example"; // String | Channel's id
+try {
+    Void result = apiInstance.startChannelRing(channelId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling DefaultApi#startChannelRing");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **channelId** | **String**| Channel&#39;s id |
+
+### Return type
+
+[**Void**](.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
 <a name="startChannelSilence"></a>
 # **startChannelSilence**
 > Void startChannelSilence(channelId)
@@ -3744,6 +3701,135 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+<a name="stopChannelMoh"></a>
+# **stopChannelMoh**
+> Void stopChannelMoh(channelId)
+
+Stop playing music on hold to a channel.
+
+### Example
+```java
+// Import classes:
+//import com.github.jasterisk.invoker.ApiException;
+//import com.github.jasterisk.api.DefaultApi;
+
+
+DefaultApi apiInstance = new DefaultApi();
+String channelId = "channelId_example"; // String | Channel's id
+try {
+    Void result = apiInstance.stopChannelMoh(channelId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling DefaultApi#stopChannelMoh");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **channelId** | **String**| Channel&#39;s id |
+
+### Return type
+
+[**Void**](.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="stopChannelRing"></a>
+# **stopChannelRing**
+> Void stopChannelRing(channelId)
+
+Stop ringing indication on a channel if locally generated.
+
+### Example
+```java
+// Import classes:
+//import com.github.jasterisk.invoker.ApiException;
+//import com.github.jasterisk.api.DefaultApi;
+
+
+DefaultApi apiInstance = new DefaultApi();
+String channelId = "channelId_example"; // String | Channel's id
+try {
+    Void result = apiInstance.stopChannelRing(channelId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling DefaultApi#stopChannelRing");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **channelId** | **String**| Channel&#39;s id |
+
+### Return type
+
+[**Void**](.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="stopChannelSilence"></a>
+# **stopChannelSilence**
+> Void stopChannelSilence(channelId)
+
+Stop playing silence to a channel.
+
+### Example
+```java
+// Import classes:
+//import com.github.jasterisk.invoker.ApiException;
+//import com.github.jasterisk.api.DefaultApi;
+
+
+DefaultApi apiInstance = new DefaultApi();
+String channelId = "channelId_example"; // String | Channel's id
+try {
+    Void result = apiInstance.stopChannelSilence(channelId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling DefaultApi#stopChannelSilence");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **channelId** | **String**| Channel&#39;s id |
+
+### Return type
+
+[**Void**](.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
 <a name="stopLiveRecording"></a>
 # **stopLiveRecording**
 > Void stopLiveRecording(recordingName)
@@ -3787,49 +3873,6 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="stopMoh"></a>
-# **stopMoh**
-> Void stopMoh(channelId)
-
-Stop playing music on hold to a channel.
-
-### Example
-```java
-// Import classes:
-//import com.github.jasterisk.invoker.ApiException;
-//import com.github.jasterisk.api.DefaultApi;
-
-
-DefaultApi apiInstance = new DefaultApi();
-String channelId = "channelId_example"; // String | Channel's id
-try {
-    Void result = apiInstance.stopMoh(channelId);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DefaultApi#stopMoh");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channelId** | **String**| Channel&#39;s id |
-
-### Return type
-
-[**Void**](.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
 <a name="stopPlayback"></a>
 # **stopPlayback**
 > Void stopPlayback(playbackId)
@@ -3859,49 +3902,6 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **playbackId** | **String**| Playback&#39;s id |
-
-### Return type
-
-[**Void**](.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-<a name="stopSilence"></a>
-# **stopSilence**
-> Void stopSilence(channelId)
-
-Stop playing silence to a channel.
-
-### Example
-```java
-// Import classes:
-//import com.github.jasterisk.invoker.ApiException;
-//import com.github.jasterisk.api.DefaultApi;
-
-
-DefaultApi apiInstance = new DefaultApi();
-String channelId = "channelId_example"; // String | Channel's id
-try {
-    Void result = apiInstance.stopSilence(channelId);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling DefaultApi#stopSilence");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channelId** | **String**| Channel&#39;s id |
 
 ### Return type
 

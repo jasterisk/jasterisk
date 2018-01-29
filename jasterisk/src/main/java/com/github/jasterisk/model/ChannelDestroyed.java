@@ -28,7 +28,7 @@ import java.io.IOException;
  * Notification that a channel has been destroyed.
  */
 @ApiModel(description = "Notification that a channel has been destroyed.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class ChannelDestroyed {
   @SerializedName("cause")
   private Integer cause = null;

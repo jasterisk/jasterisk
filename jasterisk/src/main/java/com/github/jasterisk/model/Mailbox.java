@@ -27,7 +27,7 @@ import java.io.IOException;
  * Represents the state of a mailbox.
  */
 @ApiModel(description = "Represents the state of a mailbox.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class Mailbox {
   @SerializedName("name")
   private String name = null;

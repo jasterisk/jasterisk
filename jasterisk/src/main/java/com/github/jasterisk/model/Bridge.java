@@ -29,7 +29,7 @@ import java.util.List;
  * The merging of media from one or more channels.  Everyone on the bridge receives the same audio.
  */
 @ApiModel(description = "The merging of media from one or more channels.  Everyone on the bridge receives the same audio.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class Bridge {
   @SerializedName("id")
   private String id = null;

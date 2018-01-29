@@ -30,7 +30,7 @@ import java.io.IOException;
  * User-generated event with additional user-defined fields in the object.
  */
 @ApiModel(description = "User-generated event with additional user-defined fields in the object.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class ChannelUserevent {
   @SerializedName("eventname")
   private String eventname = null;

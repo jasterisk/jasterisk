@@ -817,28 +817,6 @@ public interface DefaultApi {
   );
 
   /**
-   * Indicate ringing to a channel.
-   * 
-   * @param channelId Channel&#39;s id (required)
-   * @return Call&lt;Void&gt;
-   */
-  @POST("channels/{channelId}/ring")
-  Call<Void> ringChannel(
-    @retrofit2.http.Path("channelId") String channelId
-  );
-
-  /**
-   * Stop ringing indication on a channel if locally generated.
-   * 
-   * @param channelId Channel&#39;s id (required)
-   * @return Call&lt;Void&gt;
-   */
-  @DELETE("channels/{channelId}/ring")
-  Call<Void> ringChannelStop(
-    @retrofit2.http.Path("channelId") String channelId
-  );
-
-  /**
    * Rotates a log channel.
    * 
    * @param logChannelName Log channel&#39;s name (required)
@@ -988,6 +966,17 @@ public interface DefaultApi {
   );
 
   /**
+   * Indicate ringing to a channel.
+   * 
+   * @param channelId Channel&#39;s id (required)
+   * @return Call&lt;Void&gt;
+   */
+  @POST("channels/{channelId}/ring")
+  Call<Void> startChannelRing(
+    @retrofit2.http.Path("channelId") String channelId
+  );
+
+  /**
    * Play silence to a channel.
    * Using media operations such as /play on a channel playing silence in this manner will suspend silence without resuming automatically.
    * @param channelId Channel&#39;s id (required)
@@ -1010,6 +999,39 @@ public interface DefaultApi {
   );
 
   /**
+   * Stop playing music on hold to a channel.
+   * 
+   * @param channelId Channel&#39;s id (required)
+   * @return Call&lt;Void&gt;
+   */
+  @DELETE("channels/{channelId}/moh")
+  Call<Void> stopChannelMoh(
+    @retrofit2.http.Path("channelId") String channelId
+  );
+
+  /**
+   * Stop ringing indication on a channel if locally generated.
+   * 
+   * @param channelId Channel&#39;s id (required)
+   * @return Call&lt;Void&gt;
+   */
+  @DELETE("channels/{channelId}/ring")
+  Call<Void> stopChannelRing(
+    @retrofit2.http.Path("channelId") String channelId
+  );
+
+  /**
+   * Stop playing silence to a channel.
+   * 
+   * @param channelId Channel&#39;s id (required)
+   * @return Call&lt;Void&gt;
+   */
+  @DELETE("channels/{channelId}/silence")
+  Call<Void> stopChannelSilence(
+    @retrofit2.http.Path("channelId") String channelId
+  );
+
+  /**
    * Stop a live recording and store it.
    * 
    * @param recordingName The name of the recording (required)
@@ -1021,17 +1043,6 @@ public interface DefaultApi {
   );
 
   /**
-   * Stop playing music on hold to a channel.
-   * 
-   * @param channelId Channel&#39;s id (required)
-   * @return Call&lt;Void&gt;
-   */
-  @DELETE("channels/{channelId}/moh")
-  Call<Void> stopMoh(
-    @retrofit2.http.Path("channelId") String channelId
-  );
-
-  /**
    * Stop a playback.
    * 
    * @param playbackId Playback&#39;s id (required)
@@ -1040,17 +1051,6 @@ public interface DefaultApi {
   @DELETE("playbacks/{playbackId}")
   Call<Void> stopPlayback(
     @retrofit2.http.Path("playbackId") String playbackId
-  );
-
-  /**
-   * Stop playing silence to a channel.
-   * 
-   * @param channelId Channel&#39;s id (required)
-   * @return Call&lt;Void&gt;
-   */
-  @DELETE("channels/{channelId}/silence")
-  Call<Void> stopSilence(
-    @retrofit2.http.Path("channelId") String channelId
   );
 
   /**

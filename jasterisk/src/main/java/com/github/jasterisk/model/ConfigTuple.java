@@ -27,7 +27,7 @@ import java.io.IOException;
  * A key/value pair that makes up part of a configuration object.
  */
 @ApiModel(description = "A key/value pair that makes up part of a configuration object.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class ConfigTuple {
   @SerializedName("attribute")
   private String attribute = null;

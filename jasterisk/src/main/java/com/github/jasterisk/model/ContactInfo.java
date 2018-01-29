@@ -27,7 +27,7 @@ import java.io.IOException;
  * Detailed information about a contact on an endpoint.
  */
 @ApiModel(description = "Detailed information about a contact on an endpoint.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class ContactInfo {
   @SerializedName("uri")
   private String uri = null;

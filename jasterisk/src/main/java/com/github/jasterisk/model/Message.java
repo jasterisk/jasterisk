@@ -27,7 +27,7 @@ import java.io.IOException;
  * Base type for errors and events
  */
 @ApiModel(description = "Base type for errors and events")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class Message {
   @SerializedName("type")
   private String type = null;

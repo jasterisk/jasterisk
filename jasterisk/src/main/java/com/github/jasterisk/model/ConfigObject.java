@@ -30,7 +30,7 @@ import java.util.List;
  * A configuration object containing ConfigTuples.
  */
 @ApiModel(description = "A configuration object containing ConfigTuples.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class ConfigObject {
   @SerializedName("fields")
   private List<ConfigTuple> fields = new ArrayList<>();

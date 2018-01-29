@@ -28,7 +28,7 @@ import java.io.IOException;
  * Notification of a channel&#39;s state change.
  */
 @ApiModel(description = "Notification of a channel's state change.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class ChannelStateChange {
   @SerializedName("channel")
   private Channel channel = null;

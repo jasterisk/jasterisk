@@ -30,7 +30,7 @@ import java.util.List;
  * A media file that may be played back.
  */
 @ApiModel(description = "A media file that may be played back.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class Sound {
   @SerializedName("id")
   private String id = null;

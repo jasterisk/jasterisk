@@ -28,7 +28,7 @@ import java.io.IOException;
  * Notification that a bridge has been created.
  */
 @ApiModel(description = "Notification that a bridge has been created.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class BridgeCreated {
   @SerializedName("bridge")
   private Bridge bridge = null;

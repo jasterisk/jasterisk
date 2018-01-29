@@ -28,7 +28,7 @@ import java.time.OffsetDateTime;
  * Info about Asterisk status
  */
 @ApiModel(description = "Info about Asterisk status")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class StatusInfo {
   @SerializedName("startup_time")
   private OffsetDateTime startupTime = null;

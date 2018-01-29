@@ -28,7 +28,7 @@ import java.io.IOException;
  * Event showing failure of a recording operation.
  */
 @ApiModel(description = "Event showing failure of a recording operation.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class RecordingFailed {
   @SerializedName("recording")
   private LiveRecording recording = null;

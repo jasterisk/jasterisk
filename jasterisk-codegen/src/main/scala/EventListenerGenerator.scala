@@ -29,8 +29,16 @@ object EventListenerGenerator extends App {
     println("done generating java classes successfully")
   }
 
-  lazy val webSocketListener =
-    """
+
+  def getWebSocketListener(events: Seq[String]): String = {
+    val max = events.map(_.length).max
+
+    val handlers = events.map { event =>
+      val space = " " * (max - event.length)
+      s"        setHandler($event.class,$space obj -> listener.on$event(obj.application, obj.timestamp, obj.object));"
+    }.mkString("\n")
+
+    s"""
       |package com.github.jasterisk.client;
       |
       |import com.github.jasterisk.model.*;
@@ -57,7 +65,7 @@ object EventListenerGenerator extends App {
       |
       |    AsteriskWebSocketListener(AsteriskEventListener listener) {
       |        this.listener = listener;
-      |HERE
+      |$handlers
       |    }
       |
       |    @Override
@@ -90,11 +98,15 @@ object EventListenerGenerator extends App {
       |    }
       |}
     """.stripMargin.trim
+  }
 
-  lazy val webSocketListenerAddHandler = "        setHandler({{EVENT}}.class,SPACE obj -> listener.on{{EVENT}}(obj.application, obj.timestamp, obj.object));"
+  def getEventListener(events: Seq[String]): String = {
+    val methods = events
+      .map(event =>
+        s"    default void on$event(String app, OffsetDateTime time, $event event) {}"
+      ).mkString("\n\n")
 
-  lazy val eventListener =
-    """
+    s"""
       |package com.github.jasterisk.client;
       |
       |import com.github.jasterisk.model.*;
@@ -106,7 +118,7 @@ object EventListenerGenerator extends App {
       | */
       |public interface AsteriskEventListener {
       |
-      |HERE
+      |$methods
       |
       |    /**
       |     * Invoked when a web socket has been closed due to an error reading from or writing to the network. Both outgoing
@@ -143,25 +155,5 @@ object EventListenerGenerator extends App {
       |    default void onWebSocketMessage(String json) {}
       |}
     """.stripMargin.trim
-
-  lazy val eventListenerMethod = "    default void on{{EVENT}}(String app, OffsetDateTime time, {{EVENT}} event) {}"
-
-
-  def getWebSocketListener(events: Seq[String]): String = {
-    val max = events.map(_.length).max
-    val handlers = events.map { event =>
-      webSocketListenerAddHandler
-        .replace("{{EVENT}}", event)
-        .replace("SPACE", " " * (max - event.length))
-    }.mkString("\n")
-    webSocketListener.replace("HERE", handlers)
   }
-
-  def getEventListener(events: Seq[String]): String = {
-    val methods = events
-      .map(event => eventListenerMethod.replace("{{EVENT}}", event)).mkString("\n\n")
-    eventListener.replace("HERE", methods)
-  }
-
-
 }

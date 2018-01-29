@@ -595,7 +595,7 @@
         {
           "httpMethod": "POST",
           "summary": "Indicate ringing to a channel.",
-          "nickname": "ringChannel",
+          "nickname": "startChannelRing",
           "responseClass": "void",
           "parameters": [
             {
@@ -625,7 +625,7 @@
         {
           "httpMethod": "DELETE",
           "summary": "Stop ringing indication on a channel if locally generated.",
-          "nickname": "ringChannelStop",
+          "nickname": "stopChannelRing",
           "responseClass": "void",
           "parameters": [
             {
@@ -950,7 +950,7 @@
         {
           "httpMethod": "DELETE",
           "summary": "Stop playing music on hold to a channel.",
-          "nickname": "stopMoh",
+          "nickname": "stopChannelMoh",
           "responseClass": "void",
           "parameters": [
             {
@@ -1017,7 +1017,7 @@
         {
           "httpMethod": "DELETE",
           "summary": "Stop playing silence to a channel.",
-          "nickname": "stopSilence",
+          "nickname": "stopChannelSilence",
           "responseClass": "void",
           "parameters": [
             {

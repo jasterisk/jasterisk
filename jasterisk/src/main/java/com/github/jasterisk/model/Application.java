@@ -29,7 +29,7 @@ import java.util.List;
  * Details of a Stasis application
  */
 @ApiModel(description = "Details of a Stasis application")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class Application {
   @SerializedName("name")
   private String name = null;

@@ -14,5 +14,5 @@ java -jar swagger-codegen-cli.jar generate -i src/main/resources/ASTERISK_15_0/m
 --model-package $MODEL_PKG \
 --invoker-package $INVOKE_PKG \
 -l java -o $PROJECT_OUT -DdateLibrary=java8 \
---library retrofit2
-
+--library retrofit2 \
+-DhideGenerationTimestamp=true

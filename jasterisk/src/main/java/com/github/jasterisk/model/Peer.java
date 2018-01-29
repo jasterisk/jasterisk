@@ -27,7 +27,7 @@ import java.io.IOException;
  * Detailed information about a remote peer that communicates with Asterisk.
  */
 @ApiModel(description = "Detailed information about a remote peer that communicates with Asterisk.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class Peer {
   @SerializedName("peer_status")
   private String peerStatus = null;

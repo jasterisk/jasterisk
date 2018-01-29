@@ -27,7 +27,7 @@ import java.io.IOException;
  * A key/value pair that is part of channel variables.
  */
 @ApiModel(description = "A key/value pair that is part of channel variables.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-12-07T21:43:27.583+02:00")
+
 public class VariableTuple {
   @SerializedName("endpoint")
   private String endpoint = null;
